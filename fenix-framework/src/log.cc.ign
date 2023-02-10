@@ -1,0 +1,6 @@
+#include "core/log.hh"
+
+namespace fenix
+{
+
+} // namespace fenix

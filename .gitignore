@@ -1,0 +1,11 @@
+# Files
+*.o
+*.a
+*.so
+*.out
+*.exe
+.ignore
+
+# Directories
+/[Bb]uild
+/.cache
