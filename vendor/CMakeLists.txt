@@ -5,8 +5,10 @@ set(GLFW_INSTALL OFF)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-add_subdirectory(spdlog)
+add_subdirectory(glfw)
+add_subdirectory(glad-3.3)
 add_subdirectory(glm)
+add_subdirectory(spdlog)
 
 # ---------------------------------------------------------------------------------------
 # Group all dependencies
@@ -14,5 +16,7 @@ add_subdirectory(glm)
 
 add_library(external_deps INTERFACE)
 target_link_libraries(external_deps INTERFACE
+                                    glfw
+                                    glad
                                     glm
                                     spdlog)

@@ -38,10 +38,9 @@ BraceWrapping:
   AfterEnum:      true
   AfterFunction:  true
   AfterNamespace: false
-  AfterObjCDeclaration: false
   AfterStruct:    true
   AfterUnion:     true
-  BeforeCatch:    false
+  BeforeCatch:    true
   BeforeElse:     true
   IndentBraces:   false
   SplitEmptyFunction: false

@@ -17,9 +17,9 @@ build: generate
 	@cmake --build build -j 4
 
 run: build
-	# ---------------
-	# Run application
-	# ---------------
+	# -------------------
+	# Running application
+	# -------------------
 	@./build/bin/$(build_type)/$(target)
 
 clean:

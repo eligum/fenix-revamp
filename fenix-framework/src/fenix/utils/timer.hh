@@ -48,7 +48,7 @@ namespace fenix {
     class ScopedTimer
     {
     public:
-        ScopedTimer(const std::string& name) : m_Name{name} {}
+        ScopedTimer(const std::string& name) : m_Name(name) {}
         ~ScopedTimer()
         {
             auto time = m_Timer.ElapsedMilli();

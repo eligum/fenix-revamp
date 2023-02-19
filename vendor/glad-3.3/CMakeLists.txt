@@ -1,4 +1,4 @@
-file(GLOB _glad_HEADERS "include/*.h")
+file(GLOB _glad_HEADERS "include/**.h")
 
 add_library(glad STATIC src/glad.c "${_glad_HEADERS}")
 
