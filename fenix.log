@@ -1,22 +1,22 @@
-[12:03:26] [APP] [trace]: 57
-[12:03:26] [APP] [trace]: 54
-[12:03:26] [APP] [trace]: 11
-[12:03:26] [APP] [trace]: 70
-[12:03:26] [APP] [trace]: 81
-[12:03:26] [APP] [trace]: 89
-[12:03:26] [APP] [trace]: 4
-[12:03:26] [APP] [trace]: 75
-[12:03:26] [APP] [trace]: 13
-[12:03:26] [APP] [trace]: 24
-[12:03:26] [APP] [trace]: 93
-[12:03:26] [APP] [trace]: 71
-[12:03:26] [APP] [trace]: 73
-[12:03:26] [APP] [trace]: 78
-[12:03:26] [APP] [trace]: 7
-[12:03:26] [APP] [trace]: 60
-[12:03:26] [APP] [trace]: 75
-[12:03:26] [APP] [trace]: 64
-[12:03:26] [APP] [trace]: 61
-[12:03:26] [APP] [trace]: 80
-[12:03:26] [APP] [info]: Generated 20 random numbers in range [1, 100]
-[12:03:26] [APP] [info]: main() body took: 0.000803699 s
+[12:39:42] [APP] [trace]: 59
+[12:39:42] [APP] [trace]: 30
+[12:39:42] [APP] [trace]: 91
+[12:39:42] [APP] [trace]: 80
+[12:39:42] [APP] [trace]: 1
+[12:39:42] [APP] [trace]: 11
+[12:39:42] [APP] [trace]: 29
+[12:39:42] [APP] [trace]: 57
+[12:39:42] [APP] [trace]: 65
+[12:39:42] [APP] [trace]: 39
+[12:39:42] [APP] [trace]: 56
+[12:39:42] [APP] [trace]: 12
+[12:39:42] [APP] [trace]: 90
+[12:39:42] [APP] [trace]: 64
+[12:39:42] [APP] [trace]: 28
+[12:39:42] [APP] [trace]: 32
+[12:39:42] [APP] [trace]: 51
+[12:39:42] [APP] [trace]: 96
+[12:39:42] [APP] [trace]: 41
+[12:39:42] [APP] [trace]: 94
+[12:39:42] [APP] [info]: Generated 20 random numbers in range [1, 100]
+[12:39:42] [APP] [info]: main() body took: 0.000525159 s

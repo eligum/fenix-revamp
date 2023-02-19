@@ -5,45 +5,45 @@
 
 namespace fenix {
 
-static void create_glfw_window(const WindowProps& wp);
+    static void create_glfw_window(const WindowProps& wp);
 
-Application::Application(const WindowProps& wp)
-{
-    create_glfw_window(wp);
-}
-
-void Application::Init()
-{
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// Static free functions definitions //////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-static void glfw_error_callback(int error, const char* description)
-{
-    CORE_LOG_ERROR("GLFW ({}): {}", error, description);
-}
-
-static void create_glfw_window(const WindowProps& wp)
-{
-    i32 success = glfwInit();
-    if (!success)
+    Application::Application(const WindowProps& wp)
     {
-        CORE_LOG_FATAL("Failed to initialize GLFW!");
+        create_glfw_window(wp);
     }
-    glfwSetErrorCallback(glfw_error_callback);
 
-    CORE_LOG_INFO("Creating window: {} ({}, {})", wp.Title, wp.Width, wp.Height);
+    void Application::Init()
+    {
+    }
 
-    // Set the window minimum opengl context version required
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We are using modern OpenGL
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, true); // Set to false if it causes trouble
+    ////////////////////////////////////////////////////////////////////////////////
+    /// Static free functions definitions //////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
 
-    if (!wp.Resizable)
-        glfwWindowHint(GLFW_RESIZABLE, false);
-}
+    static void glfw_error_callback(int error, const char* description)
+    {
+        CORE_LOG_ERROR("GLFW ({}): {}", error, description);
+    }
+
+    static void create_glfw_window(const WindowProps& wp)
+    {
+        i32 success = glfwInit();
+        if (!success)
+        {
+            CORE_LOG_FATAL("Failed to initialize GLFW!");
+        }
+        glfwSetErrorCallback(glfw_error_callback);
+
+        CORE_LOG_INFO("Creating main window: {} ({}, {})", wp.Title, wp.Width, wp.Height);
+
+        // Set the window minimum opengl context version required
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We are using modern OpenGL
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, true); // Set to false if it causes trouble
+
+        if (!wp.Resizable)
+            glfwWindowHint(GLFW_RESIZABLE, false);
+    }
 
 } // namespace fenix
