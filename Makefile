@@ -7,6 +7,7 @@ generate:
 	# ----------------------
 	# Generating build files
 	# ----------------------
+	@mkdir -p build
 	@cmake -G 'Unix Makefiles' -S . -B build -DCMAKE_BUILD_TYPE=$(build_type) \
 	-DCMAKE_EXPORT_COMPILE_COMMANDS=YES -DWARNINGS_AS_ERRORS=FALSE
 
