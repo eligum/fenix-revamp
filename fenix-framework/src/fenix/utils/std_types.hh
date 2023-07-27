@@ -4,7 +4,7 @@
 #include <chrono>
 
 
-/// NOTE(Joey):
+/// NOTE:
 ///
 /// Define a set of types with fixed bit sizes, regardless of
 /// platform in use. The typedefs specify the fixed types from
