@@ -21,7 +21,7 @@ namespace fenix {
     Application* CreateApplication(CommandLineArgs args)
     {
         auto spec = ApplicationSpecification{};
-        spec.start_maximized = true;
+        spec.start_maximized = false;
         spec.working_directory = fs::path(".");
         spec.command_line_args = args;
 

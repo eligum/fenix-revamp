@@ -2,6 +2,22 @@
     "files.associations": {
         "*.pl": "prolog",
         "*sld": "xml",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "array": "cpp",
+        "atomic": "cpp",
+        "any": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp",
+        "string_view": "cpp",
+        "system_error": "cpp",
+        "type_traits": "cpp",
+        "format": "cpp",
+        "fstream": "cpp",
+        "functional": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "sstream": "cpp",
+        "streambuf": "cpp",
+        "valarray": "cpp"
     }
 }

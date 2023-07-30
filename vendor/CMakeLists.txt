@@ -11,8 +11,9 @@ set(ASSIMP_INSTALL_PDB OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_subdirectory(glfw)
-add_subdirectory(glad-4.3)
+add_subdirectory(glad-4.5)
 add_subdirectory(glm)
+add_subdirectory(stb)
 add_subdirectory(spdlog)
 add_subdirectory(assimp)
 
@@ -25,5 +26,6 @@ target_link_libraries(external_deps INTERFACE
                                     glfw
                                     glad
                                     glm
+                                    stb
                                     spdlog
                                     assimp)

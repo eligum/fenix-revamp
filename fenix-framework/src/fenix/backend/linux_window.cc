@@ -50,14 +50,11 @@ namespace fenix {
 
         // Window hints
         glfwWindowHint(GLFW_DECORATED, true);
-        glfwWindowHint(GLFW_RESIZABLE, true);
+        glfwWindowHint(GLFW_RESIZABLE, props.resizable);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We are using modern OpenGL
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, true); // Remove functionality deprecated in the requested OpenGL version
-
-        if (!props.resizable)
-            glfwWindowHint(GLFW_RESIZABLE, false);
 
 #if defined(FENIX_DEBUG)
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
@@ -69,6 +66,9 @@ namespace fenix {
                                     nullptr,
                                     nullptr);
 
+        if (props.maximized)
+            glfwMaximizeWindow(m_Window);
+
         m_Context = new OpenGLContext(m_Window);
         m_Context->Init();
 
@@ -77,7 +77,7 @@ namespace fenix {
         SetVSync(true);
 
         // Initialize input
-        // Input::Init();
+        Input::Init();
 
         // Set GLFW event callbacks
         glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {

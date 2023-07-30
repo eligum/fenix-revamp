@@ -32,7 +32,7 @@ namespace fenix {
         CORE_LOG_INFO("Version:  {}", reinterpret_cast<const char*>(glGetString(GL_VERSION)));
         CORE_LOG_INFO("------------");
 
-        FENIX_ASSERT(GLVersion.major > 3 || (GLVersion.major == 4 && GLVersion.minor >= 3), "FENIX requires at least OpenGL version 3.3");
+        FENIX_ASSERT(GLVersion.major > 4 || (GLVersion.major == 4 && GLVersion.minor >= 5), "FENIX requires at least OpenGL version 4.5");
 
         int flags;
         glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
