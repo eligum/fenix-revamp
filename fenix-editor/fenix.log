@@ -1,22 +1,8 @@
-[00:01:53] [APP] [trace]: 21
-[00:01:53] [APP] [trace]: 20
-[00:01:53] [APP] [trace]: 32
-[00:01:53] [APP] [trace]: 21
-[00:01:53] [APP] [trace]: 2
-[00:01:53] [APP] [trace]: 68
-[00:01:53] [APP] [trace]: 69
-[00:01:53] [APP] [trace]: 41
-[00:01:53] [APP] [trace]: 8
-[00:01:53] [APP] [trace]: 76
-[00:01:53] [APP] [trace]: 77
-[00:01:53] [APP] [trace]: 10
-[00:01:53] [APP] [trace]: 59
-[00:01:53] [APP] [trace]: 2
-[00:01:53] [APP] [trace]: 14
-[00:01:53] [APP] [trace]: 42
-[00:01:53] [APP] [trace]: 37
-[00:01:53] [APP] [trace]: 55
-[00:01:53] [APP] [trace]: 20
-[00:01:53] [APP] [trace]: 93
-[00:01:53] [APP] [info]: Generated 20 random numbers in range [1, 100]
-[00:01:53] [APP] [info]: main() body took: 0.000592332 s
+[11:15:48] [APP] [info]: Creating window: FENIX Engine (1280, 720)
+[11:15:49] [FENIX] [info]: ------------
+[11:15:49] [FENIX] [info]: Vendor:   Intel
+[11:15:49] [FENIX] [info]: Renderer: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
+[11:15:49] [FENIX] [info]: Version:  4.6 (Core Profile) Mesa 23.1.4
+[11:15:49] [FENIX] [info]: ------------
+[11:15:49] [FENIX] [warning]: Using an OpenGL debug context, GL operations will be significantly slower.
+[11:15:49] [FENIX] [warning]: If this is not intentional you should request a normal context.

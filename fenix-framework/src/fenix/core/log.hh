@@ -20,7 +20,7 @@ namespace fenix {
 
 } // namespace fenix
 
-// Core log macros
+// Framework log macros
 #define CORE_LOG_TRACE(...) ::fenix::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define CORE_LOG_INFO(...)  ::fenix::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define CORE_LOG_WARN(...)  ::fenix::Log::GetCoreLogger()->warn(__VA_ARGS__)
@@ -28,8 +28,8 @@ namespace fenix {
 #define CORE_LOG_FATAL(...) ::fenix::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 // Clien log macros
-#define LOG_TRACE(...)      ::fenix::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define LOG_INFO(...)       ::fenix::Log::GetClientLogger()->info(__VA_ARGS__)
-#define LOG_WARN(...)       ::fenix::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define LOG_ERROR(...)      ::fenix::Log::GetClientLogger()->error(__VA_ARGS__)
-#define LOG_FATAL(...)      ::fenix::Log::GetClientLogger()->critical(__VA_ARGS__)
+#define LOG_TRACE(...) ::fenix::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define LOG_INFO(...)  ::fenix::Log::GetClientLogger()->info(__VA_ARGS__)
+#define LOG_WARN(...)  ::fenix::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define LOG_ERROR(...) ::fenix::Log::GetClientLogger()->error(__VA_ARGS__)
+#define LOG_FATAL(...) ::fenix::Log::GetClientLogger()->critical(__VA_ARGS__)

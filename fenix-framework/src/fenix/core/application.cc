@@ -1,49 +1,105 @@
+#include <filesystem>
+#include <chrono>
 #include "fenix/core/application.hh"
+#include "fenix/core/log.hh"
 
 #include <GLFW/glfw3.h>
-#include "fenix/core/log.hh"
 
 namespace fenix {
 
-    static void create_glfw_window(const WindowProps& wp);
+    Application* Application::s_Instance = nullptr;
 
-    Application::Application(const WindowProps& wp)
+    Application::Application(const ApplicationSpecification& spec)
+        : m_Specification(spec),
+          m_MainWindow(nullptr),
+          m_Running(false),
+          m_Minimized(false),
+          m_LastFrameTime(Clock::now())
     {
-        create_glfw_window(wp);
-    }
+        FENIX_ASSERT(!s_Instance, "Application already exists!");
+        s_Instance = this;
 
-    void Application::Init()
-    {
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////
-    /// Static free functions definitions //////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////
-
-    static void glfw_error_callback(int error, const char* description)
-    {
-        CORE_LOG_ERROR("GLFW ({}): {}", error, description);
-    }
-
-    static void create_glfw_window(const WindowProps& wp)
-    {
-        i32 success = glfwInit();
-        if (!success)
+        if (!m_Specification.working_directory.empty())
         {
-            CORE_LOG_FATAL("Failed to initialize GLFW!");
+            std::filesystem::current_path(m_Specification.working_directory);
         }
-        glfwSetErrorCallback(glfw_error_callback);
 
-        CORE_LOG_INFO("Creating main window: {} ({}, {})", wp.Title, wp.Width, wp.Height);
+        auto wp = WindowProps {
+            "FENIX Engine",
+            1280,
+            720,
+            true,
+            m_Specification.start_maximized
+        };
 
-        // Set the window minimum opengl context version required
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We are using modern OpenGL
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, true); // Set to false if it causes trouble
+        m_MainWindow = std::unique_ptr<Window> { Window::Create(wp) };
+        m_MainWindow->SetEventCallback(FENIX_BIND_EVENT_FN(Application::OnEvent));
+        m_MainWindow->SetVSync(true);
+    }
 
-        if (!wp.Resizable)
-            glfwWindowHint(GLFW_RESIZABLE, false);
+    Application::~Application()
+    {
+        s_Instance = nullptr;
+    }
+
+    void Application::OnEvent(Event& evt)
+    {
+        EventDispatcher dispatcher(evt);
+        dispatcher.Dispatch<WindowCloseEvent>(FENIX_BIND_EVENT_FN(Application::OnWindowClose));
+        // dispatcher.Dispatch<WindowResizeEvent>(FENIX_BIND_EVENT_FN(Application::OnWindowResize));
+
+        // Send the event to all layers of the stack in order until one of them handles it.
+        for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
+        {
+            if (evt.handled)
+            {
+                break;
+            }
+            (*it)->OnEvent(evt);
+        }
+    }
+
+    void Application::PushLayer(Layer* layer)
+    {
+        m_LayerStack.PushLayer(layer);
+    }
+
+    void Application::PushOverlay(Layer* overlay)
+    {
+        m_LayerStack.PushOverlay(overlay);
+    }
+
+    void Application::Run()
+    {
+        m_Running = true;
+
+        while (m_Running)
+        {
+            auto time       = Clock::now();
+            auto delta_time = TimeStep { Seconds { time - m_LastFrameTime }.count() };
+            m_LastFrameTime = time;
+
+            if (!m_Minimized)
+            {
+                for (Layer* layer : m_LayerStack)
+                {
+                    layer->OnUpdate(delta_time);
+                }
+            }
+
+            m_MainWindow->OnUpdate();
+        }
+    }
+
+    void Application::Close()
+    {
+        m_Running = false;
+    }
+
+    bool Application::OnWindowClose(WindowCloseEvent&)
+    {
+        Close();
+        return true;
     }
 
 } // namespace fenix

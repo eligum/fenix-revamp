@@ -52,7 +52,7 @@ namespace fenix {
         ~ScopedTimer()
         {
             auto time = m_Timer.ElapsedMilli();
-            std::cout << "[TIMER - " << m_Name << "]: " << time << " ms\n";
+            std::cout << "[TIMER - " << m_Name << "]: " << time << "ms\n";
         }
 
     private:

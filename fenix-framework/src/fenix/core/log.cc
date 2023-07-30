@@ -32,6 +32,8 @@ namespace fenix {
             spdlog::register_logger(s_ClientLogger);
             s_ClientLogger->set_level(spdlog::level::trace);
             s_ClientLogger->flush_on(spdlog::level::trace);
+
+            // CORE_LOG_INFO("Successfully initialized logger.");
         }
         catch (const spdlog::spdlog_ex& ex)
         {

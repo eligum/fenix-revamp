@@ -1,0 +1,8 @@
+[11:21:57] [FENIX] [info]: Creating window: FENIX Engine (1280, 720)
+[11:21:58] [FENIX] [info]: ------------
+[11:21:58] [FENIX] [info]: Vendor:   Intel
+[11:21:58] [FENIX] [info]: Renderer: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
+[11:21:58] [FENIX] [info]: Version:  4.6 (Core Profile) Mesa 23.1.4
+[11:21:58] [FENIX] [info]: ------------
+[11:21:58] [FENIX] [warning]: Using an OpenGL debug context, GL operations will be significantly slower.
+[11:21:58] [FENIX] [warning]: If this is not intentional you should request a normal context.

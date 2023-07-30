@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.pl": "prolog",
+        "*sld": "xml",
+        "*.tcc": "cpp"
+    }
+}

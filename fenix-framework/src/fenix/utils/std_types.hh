@@ -36,12 +36,12 @@ namespace fenix {
     using f64 = double;
 
     /// This class is simply a wrapper over a float.
-    /// It uses the `<chrono>` library to make explicit which time units are being used upon
-    /// construction. It can be implicitly casted to a float.
-    class Seconds
+    /// It represents an interval of time (duration) in seconds. Can be
+    /// implicitly casted to a float.
+    class TimeStep
     {
     public:
-        explicit Seconds(f32 value = 0.0f)
+        explicit TimeStep(f32 value = 0.0f)
             : m_Time(std::chrono::duration<f32>{value})
         {}
 

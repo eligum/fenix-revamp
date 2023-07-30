@@ -11,7 +11,7 @@ set(ASSIMP_INSTALL_PDB OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_subdirectory(glfw)
-add_subdirectory(glad-3.3)
+add_subdirectory(glad-4.3)
 add_subdirectory(glm)
 add_subdirectory(spdlog)
 add_subdirectory(assimp)
