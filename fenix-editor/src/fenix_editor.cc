@@ -1,25 +1,31 @@
 #include <fenix.hh>
-// #include <fenix/core/entry_point.hh>
+#include <fenix/core/entry_point.hh>
+#include <filesystem>
 
-int main(int argc, char** argv)
-{
-    fenix::Log::Init();
+#include "editor_layer.hh"
 
-    auto app = fenix::CreateApplication({argc, argv});
-    app->Run();
-    delete app;
-}
+namespace fs = std::filesystem;
 
 namespace fenix {
+
+    class FenixEditor : public Application
+    {
+    public:
+        FenixEditor(const ApplicationSpecification& spec)
+            : Application(spec)
+        {
+            this->PushLayer(new EditorLayer());
+        }
+    };
 
     Application* CreateApplication(CommandLineArgs args)
     {
         auto spec = ApplicationSpecification{};
         spec.start_maximized = true;
-        spec.working_directory = ".";
+        spec.working_directory = fs::path(".");
         spec.command_line_args = args;
 
-        return new Application(spec);
+        return new FenixEditor(spec);
     }
 
 } // namespace fenix

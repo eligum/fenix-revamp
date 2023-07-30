@@ -46,15 +46,12 @@ namespace fenix {
     {
         EventDispatcher dispatcher(evt);
         dispatcher.Dispatch<WindowCloseEvent>(FENIX_BIND_EVENT_FN(Application::OnWindowClose));
-        // dispatcher.Dispatch<WindowResizeEvent>(FENIX_BIND_EVENT_FN(Application::OnWindowResize));
+        dispatcher.Dispatch<WindowResizeEvent>(FENIX_BIND_EVENT_FN(Application::OnWindowResize));
 
         // Send the event to all layers of the stack in order until one of them handles it.
         for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
         {
-            if (evt.handled)
-            {
-                break;
-            }
+            if (evt.handled) { break; }
             (*it)->OnEvent(evt);
         }
     }
@@ -79,6 +76,9 @@ namespace fenix {
             auto delta_time = TimeStep { Seconds { time - m_LastFrameTime }.count() };
             m_LastFrameTime = time;
 
+            // In Windows OS minimizing causes the screen to get resized to 0,0 while still
+            // consuming resources, to avoid wasting CPU or GPU time we only render when the
+            // window size is greater than zero.
             if (!m_Minimized)
             {
                 for (Layer* layer : m_LayerStack)
@@ -100,6 +100,20 @@ namespace fenix {
     {
         Close();
         return true;
+    }
+
+    bool Application::OnWindowResize(WindowResizeEvent& evt)
+    {
+        if (evt.GetWidth() == 0 || evt.GetHeight() == 0)
+        {
+            m_Minimized = true;
+            return false;
+        }
+        m_Minimized = false;
+        // m_MainWindow->SetViewportSize(evt.GetWidth(), evt.GetHeight());
+        // Renderer::OnWindowResize(evt.GetWidth(), evt.GetHeight());
+
+        return false;
     }
 
 } // namespace fenix
