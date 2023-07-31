@@ -1,4 +1,5 @@
 #include <string>
+#include <filesystem>
 #include <unordered_map>
 
 #include <glad/glad.h>
@@ -9,6 +10,9 @@ namespace fenix {
 
     class Shader
     {
+    public:
+        using Path = std::filesystem::path;
+
     public:
         ~Shader();
 
@@ -26,11 +30,11 @@ namespace fenix {
         void SetMat4        (const std::string& name, const glm::mat4& value);
 
         u32 GetID() const { return m_RendererID; }
-        static Shader* FromGLSLTextFiles(const std::string& vert_shader_path, const std::string& frag_shader_path);
+        static Shader* FromGLSLTextFiles(const Path& vert_shader_path, const Path& frag_shader_path);
 
     private:
         u32 compile_shader(GLenum type, const std::string& source);
-        void create_program_from_files(const std::string& vert_shader_path, const std::string& frag_shader_path);
+        void create_program_from_files(const Path& vert_shader_path, const Path& frag_shader_path);
         i32 get_uniform_location(const std::string& name);
 
     private:

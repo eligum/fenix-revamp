@@ -22,7 +22,7 @@ namespace fenix {
     {
         auto spec = ApplicationSpecification{};
         spec.start_maximized = false;
-        spec.working_directory = fs::path(".");
+        spec.working_directory = fs::path("/home/miguel/devel/projects/Fenix-2/fenix-editor");
         spec.command_line_args = args;
 
         return new FenixEditor(spec);

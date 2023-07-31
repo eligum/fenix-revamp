@@ -47,8 +47,7 @@ namespace fenix {
     {
     public:
         /// A `BufferLayout::Element` contains all the necessary information we will need to
-        /// be able to specify to OpenGL the format of our vertex data once a `BufferLayout`
-        /// has been created.
+        /// be able to specify to OpenGL the format of our vertex data.
         struct Element
         {
             ShaderDataType type;
@@ -102,11 +101,11 @@ namespace fenix {
             calculate_offset_and_stride();
         }
 
-        /// Returns the stride (byte offset between consecutive vertices of the same type of
-        /// vertex attribute).
+        /// Returns the stride (number of bytes between consecutive vertices of the same vertex
+        /// attribute).
         u32 GetStride() const { return m_Stride; }
 
-        /// Returns the number of elements (vertex attributes) that this layout contains.
+        /// Returns the number of elements (vertex attributes) of the layout.
         u32 Count() const { return m_Elements.size(); }
 
         const_iterator begin() const { return m_Elements.cbegin(); }
@@ -225,7 +224,7 @@ namespace fenix {
         u32 GetIndexCount() const;
 
         /// Updates the state of the current OpenGL context to prepare for drawing with this
-        /// VertexArray` configuration.
+        /// `VertexArray` configuration.
         void Bind() const;
 
         /// Resets the drawing configuration of the current OpenGL context. If you wish to draw

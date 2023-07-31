@@ -7,9 +7,11 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
+namespace fs = std::filesystem;
+
 namespace fenix {
 
-    Shader* Shader::FromGLSLTextFiles(const std::string& vert_shader_path, const std::string& frag_shader_path)
+    Shader* Shader::FromGLSLTextFiles(const fs::path& vert_shader_path, const fs::path& frag_shader_path)
     {
         Shader* shader = new Shader();
         shader->create_program_from_files(vert_shader_path, frag_shader_path);
@@ -22,7 +24,7 @@ namespace fenix {
     }
 
     // Marking a non-member function as static makes it only visible in this translation unit
-    static std::string read_to_string(const std::string& filepath)
+    static std::string read_to_string(const fs::path& filepath)
     {
         std::string result;
         std::ifstream in(filepath, std::ios::in);
@@ -34,7 +36,7 @@ namespace fenix {
             in.read(&result[0], result.length());
             in.close();
         } else {
-            CORE_LOG_ERROR("Failed to read file '{}'", filepath.c_str());
+            CORE_LOG_ERROR("Failed to read file '{}'", filepath.string());
         }
 
         return result;
@@ -64,15 +66,18 @@ namespace fenix {
         return shaderID;
     }
 
-    void Shader::create_program_from_files(const std::string& vert_shader_path, const std::string& frag_shader_path)
+    void Shader::create_program_from_files(const fs::path& vert_shader_path, const fs::path& frag_shader_path)
     {
         std::string vert_source = read_to_string(vert_shader_path);
         std::string frag_source = read_to_string(frag_shader_path);
 
         u32 programID = glCreateProgram();
 
+        CORE_LOG_TRACE("Compiling shader '{}'", vert_shader_path.filename().string());
         u32 vertShaderID = compile_shader(GL_VERTEX_SHADER, vert_source);
         glAttachShader(programID, vertShaderID);
+
+        CORE_LOG_TRACE("Compiling shader '{}'", frag_shader_path.filename().string());
         u32 fragShaderID = compile_shader(GL_FRAGMENT_SHADER, frag_source);
         glAttachShader(programID, fragShaderID);
 

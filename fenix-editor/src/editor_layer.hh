@@ -1,6 +1,8 @@
 #pragma once
 
 #include <fenix.hh>
+#include <fenix/renderer/buffer.hh>
+#include <fenix/renderer/shader.hh>
 
 class EditorLayer : public fenix::Layer
 {
@@ -13,4 +15,8 @@ public:
     void OnUpdate(fenix::TimeStep ts) override;
     void OnEvent(fenix::Event&) override;
     void OnRenderUI() override;
+
+private:
+    std::shared_ptr<fenix::Shader> m_Shader;
+    std::shared_ptr<fenix::VertexArray> m_VertexArray;
 };

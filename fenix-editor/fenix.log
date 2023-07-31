@@ -1,8 +1,10 @@
-[11:15:48] [APP] [info]: Creating window: FENIX Engine (1280, 720)
-[11:15:49] [FENIX] [info]: ------------
-[11:15:49] [FENIX] [info]: Vendor:   Intel
-[11:15:49] [FENIX] [info]: Renderer: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
-[11:15:49] [FENIX] [info]: Version:  4.6 (Core Profile) Mesa 23.1.4
-[11:15:49] [FENIX] [info]: ------------
-[11:15:49] [FENIX] [warning]: Using an OpenGL debug context, GL operations will be significantly slower.
-[11:15:49] [FENIX] [warning]: If this is not intentional you should request a normal context.
+[21:04:32] [FENIX] [info]: Creating window: FENIX Engine (1280, 720)
+[21:04:33] [FENIX] [info]: ------------
+[21:04:33] [FENIX] [info]: Vendor:   Intel
+[21:04:33] [FENIX] [info]: Renderer: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
+[21:04:33] [FENIX] [info]: Version:  4.6 (Core Profile) Mesa 23.1.4
+[21:04:33] [FENIX] [info]: ------------
+[21:04:33] [FENIX] [warning]: Using an OpenGL debug context, GL operations will be significantly slower.
+[21:04:33] [FENIX] [warning]: If this is not intentional you should request a normal context.
+[21:04:33] [FENIX] [trace]: Compiling shader 'test.vert'
+[21:04:33] [FENIX] [trace]: Compiling shader 'test.frag'

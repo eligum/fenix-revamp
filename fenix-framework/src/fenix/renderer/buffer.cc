@@ -133,5 +133,4 @@ namespace fenix {
         glBindVertexArray(0);
     }
 
-
 } // namespace fenix
