@@ -47,14 +47,15 @@ void EditorLayer::OnDetach()
 
 void EditorLayer::OnUpdate(fenix::TimeStep ts)
 {
-    glClearColor(0.5f, 0.9f, 0.9f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    RenderCommand::SetClearColor(Color::Chartreuse);
+    RenderCommand::Clear();
+
+    Renderer::BeginScene();
 
     m_Shader->Bind();
+    Renderer::Submit(m_VertexArray);
 
-    m_VertexArray->Bind();
-    glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
-    m_VertexArray->Unbind();
+    Renderer::EndScene();
 }
 
 void EditorLayer::OnEvent(fenix::Event&)
