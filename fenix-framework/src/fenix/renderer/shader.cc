@@ -11,7 +11,7 @@ namespace fs = std::filesystem;
 
 namespace fenix {
 
-    Shader* Shader::FromGLSLTextFiles(const fs::path& vert_shader_path, const fs::path& frag_shader_path)
+    Shader* Shader::Create(const fs::path& vert_shader_path, const fs::path& frag_shader_path)
     {
         Shader* shader = new Shader();
         shader->create_program_from_files(vert_shader_path, frag_shader_path);

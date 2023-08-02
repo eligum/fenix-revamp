@@ -8,15 +8,15 @@
 
 namespace fenix::Input {
 
-    /// Initializes input.
+    /// Initializes the input system.
     void Init();
 
-    /// Polls the last reported per-window state of a specific key and returns true if the
-    /// key was pressed. State is updated every frame.
+    /// Polls the last reported state of a specific keyboard key for the application's window
+    /// and returns true if the key was pressed. State is updated every frame.
     bool IsKeyPressed(KeyCode key);
 
-    /// Polls the last reported per-window state of a specific mouse button and returns true
-    /// if the mouse button was pressed. State is updated every frame.
+    /// Polls the last reported state of a specific mouse button for the application's window
+    /// and returns true if the mouse button was pressed. State is updated every frame.
     bool IsMouseButtonPressed(MouseCode button);
 
     /// Returns true if the cursor is hovering the application's main window.

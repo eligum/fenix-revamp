@@ -30,7 +30,7 @@ namespace fenix {
         void SetMat4        (const std::string& name, const glm::mat4& value);
 
         u32 GetID() const { return m_RendererID; }
-        static Shader* FromGLSLTextFiles(const Path& vert_shader_path, const Path& frag_shader_path);
+        static Shader* Create(const Path& vert_shader_path, const Path& frag_shader_path);
 
     private:
         u32 compile_shader(GLenum type, const std::string& source);

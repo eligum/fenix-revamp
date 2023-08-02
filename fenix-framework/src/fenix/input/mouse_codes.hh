@@ -14,25 +14,24 @@ namespace fenix {
         Disabled = GLFW_CURSOR_DISABLED,
     };
 
-    // By putting a plain enum inside a namespace instead of using an enum class we avoid having
-    // to cast to an int when we need to retrieve the mouse code.
-    namespace Mouse {
-        enum : MouseCode
-        {
-            Button0      = 0,
-            Button1      = 1,
-            Button2      = 2,
-            Button3      = 3,
-            Button4      = 4,
-            Button5      = 5,
-            Button6      = 6,
-            Button7      = 7,
+    // NOTE(Miguel): By not using an enum class we avoid having to cast to an int when we need
+    // to retrieve the mouse code.
 
-            ButtonLast   = Button7,
-            ButtonLeft   = Button0,
-            ButtonRight  = Button1,
-            ButtonMiddle = Button2,
-        };
-    }
+    enum Mouse : MouseCode
+    {
+        Button0      = 0,
+        Button1      = 1,
+        Button2      = 2,
+        Button3      = 3,
+        Button4      = 4,
+        Button5      = 5,
+        Button6      = 6,
+        Button7      = 7,
+
+        ButtonLast   = Button7,
+        ButtonLeft   = Button0,
+        ButtonRight  = Button1,
+        ButtonMiddle = Button2,
+    };
 
 } // namespace fenix

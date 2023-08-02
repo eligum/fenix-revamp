@@ -18,7 +18,7 @@ namespace fenix {
         std::string ToString() const override
         {
             std::stringstream ss;
-            ss << "MouseMovedEvent: " << m_MouseX << ", " << m_MouseY;
+            ss << "MouseMovedEvent: (" << m_MouseX << ", " << m_MouseY << ")";
             return ss.str();
         }
 
@@ -32,8 +32,8 @@ namespace fenix {
     class MouseScrolledEvent : public Event
     {
     public:
-        MouseScrolledEvent(const f32 xOffset, const f32 yOffset)
-            : m_XOffset(xOffset), m_YOffset(yOffset) {}
+        MouseScrolledEvent(const f32 x_offset, const f32 y_offset)
+            : m_XOffset(x_offset), m_YOffset(y_offset) {}
 
         f32 GetXOffset() const { return m_XOffset; }
         f32 GetYOffset() const { return m_YOffset; }
@@ -41,7 +41,7 @@ namespace fenix {
         std::string ToString() const override
         {
             std::stringstream ss;
-            ss << "MouseScrolledEvent: " << GetXOffset() << ", " << GetYOffset();
+            ss << "MouseScrolledEvent: (" << m_XOffset << ", " << m_YOffset << ")";
             return ss.str();
         }
 

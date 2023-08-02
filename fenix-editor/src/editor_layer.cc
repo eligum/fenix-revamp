@@ -6,7 +6,7 @@ using namespace fenix;
 void EditorLayer::OnAttach()
 {
     // Create shader from source files
-    m_Shader.reset(Shader::FromGLSLTextFiles(
+    m_Shader.reset(Shader::Create(
         "assets-2/shaders/test.vert",
         "assets-2/shaders/test.frag"
     ));
@@ -58,8 +58,10 @@ void EditorLayer::OnUpdate(fenix::TimeStep ts)
     Renderer::EndScene();
 }
 
-void EditorLayer::OnEvent(fenix::Event&)
+void EditorLayer::OnEvent(fenix::Event& event)
 {
+    auto dispacher = EventDispatcher{event};
+    // dispacher.Dispatch<MouseScrolledEvent>(FENIX_BIND_EVENT_FN());
 }
 
 void EditorLayer::OnRenderUI()

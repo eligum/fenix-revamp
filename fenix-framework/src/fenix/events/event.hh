@@ -102,10 +102,13 @@ namespace fenix {
         Event& m_Event;
     };
 
-    // NOTE(Miguel): Here, the `inline` keyword tells the compiler that there should only be one
-    // definition of this function. C++ man...
+    // NOTE(Miguel): Here, the `inline` keyword tells the compiler that multiple definitons
+    // of this function are permitted across different translation units, allowing the
+    // function to be defined in a header file.
+    // I didn't feel like creating a source file just for the definition of such a simple
+    // function.
 
-    /// Overload the << operator so we can debug print Event types.
+    /// Overload the << operator so we can debug-print Event types.
     inline std::ostream& operator<<(std::ostream& os, const Event& e)
     {
         return os << e.ToString();

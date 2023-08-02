@@ -1,10 +1,10 @@
-[02:26:46] [FENIX] [info]: Creating window: FENIX Engine (1280, 720)
-[02:26:46] [FENIX] [info]: ------------
-[02:26:46] [FENIX] [info]: Vendor:   Intel
-[02:26:46] [FENIX] [info]: Renderer: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
-[02:26:46] [FENIX] [info]: Version:  4.6 (Core Profile) Mesa 23.1.4
-[02:26:46] [FENIX] [info]: ------------
-[02:26:46] [FENIX] [warning]: Using an OpenGL debug context, GL operations will be significantly slower.
-[02:26:46] [FENIX] [warning]: If this is not intentional you should request a normal context.
-[02:26:46] [FENIX] [trace]: Compiling shader 'test.vert'
-[02:26:46] [FENIX] [trace]: Compiling shader 'test.frag'
+[09:36:00] [FENIX] [info]: Creating window: FENIX Engine (1280, 720)
+[09:36:00] [FENIX] [info]: ------------
+[09:36:00] [FENIX] [info]: Vendor:   Intel
+[09:36:00] [FENIX] [info]: Renderer: Mesa Intel(R) UHD Graphics 620 (KBL GT2)
+[09:36:00] [FENIX] [info]: Version:  4.6 (Core Profile) Mesa 23.1.4
+[09:36:00] [FENIX] [info]: ------------
+[09:36:00] [FENIX] [warning]: Using an OpenGL debug context, GL operations will be significantly slower.
+[09:36:00] [FENIX] [warning]: If this is not intentional you should request a normal context.
+[09:36:00] [FENIX] [trace]: Compiling shader 'test.vert'
+[09:36:00] [FENIX] [trace]: Compiling shader 'test.frag'

@@ -32,9 +32,14 @@ namespace fenix {
             m_Specification.start_maximized
         };
 
-        m_MainWindow = std::unique_ptr<Window> { Window::Create(wp) };
-        m_MainWindow->SetEventCallback(FENIX_BIND_EVENT_FN(Application::OnEvent));
+        m_MainWindow = std::unique_ptr<Window>{ Window::Create(wp) };
         m_MainWindow->SetVSync(true);
+
+        // All events detected by GLFW will be sent to this callback. From there we decide what
+        // to do with those events. For instance, window related events (like resizing or closing
+        // the application's window) are dispatched in this class, while other events (like mouse
+        // or keyboard input) are sent to the application's layers.
+        m_MainWindow->SetEventCallback(FENIX_BIND_EVENT_FN(Application::OnEvent));
     }
 
     Application::~Application()
@@ -73,7 +78,7 @@ namespace fenix {
         while (m_Running)
         {
             auto time       = Clock::now();
-            auto delta_time = TimeStep { Seconds { time - m_LastFrameTime }.count() };
+            auto delta_time = TimeStep{ Seconds{time - m_LastFrameTime}.count() };
             m_LastFrameTime = time;
 
             // In Windows OS minimizing causes the screen to get resized to 0,0 while still
@@ -87,6 +92,9 @@ namespace fenix {
                 }
             }
 
+            // This function swaps the window buffers and polls events to detect user input.
+            // If any events are detected, the corresponding callbacks associated with
+            // those events are triggered.
             m_MainWindow->OnUpdate();
         }
     }

@@ -36,7 +36,7 @@ namespace fenix::Input {
         f64 x_pos;
         f64 y_pos;
         glfwGetCursorPos(window, &x_pos, &y_pos);
-        return glm::vec2{x_pos, y_pos};
+        return {x_pos, y_pos};
     }
 
     void SetCursorInputMode(CursorMode mode)
