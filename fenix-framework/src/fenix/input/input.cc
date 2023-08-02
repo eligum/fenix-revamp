@@ -1,5 +1,6 @@
 #include "fenix/input/input.hh"
 #include "fenix/core/application.hh"
+#include <GLFW/glfw3.h>
 
 namespace fenix::Input {
 

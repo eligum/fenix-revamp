@@ -2,8 +2,9 @@
 
 #include <string>
 #include <filesystem>
-#include "fenix/utils/std_types.hh"
 #include <glad/glad.h>
+
+#include "fenix/utils/std_types.hh"
 
 namespace fenix {
 

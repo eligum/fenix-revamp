@@ -2,6 +2,7 @@
 #include <chrono>
 #include "fenix/core/application.hh"
 #include "fenix/core/log.hh"
+#include "fenix/utils/definitions.hh"
 
 #include <GLFW/glfw3.h>
 
@@ -25,9 +26,9 @@ namespace fenix {
         }
 
         auto wp = WindowProps {
-            "FENIX Engine",
-            1280,
-            720,
+            def::WINDOW_TITLE,
+            def::WINDOW_WIDTH,
+            def::WINDOW_HEIGHT,
             true,
             m_Specification.start_maximized
         };

@@ -3,6 +3,7 @@
 #include <fenix.hh>
 #include <fenix/renderer/buffer.hh>
 #include <fenix/renderer/shader.hh>
+#include <fenix/renderer/camera.hh>
 
 class EditorLayer : public fenix::Layer
 {
@@ -19,4 +20,5 @@ public:
 private:
     std::shared_ptr<fenix::Shader> m_Shader;
     std::shared_ptr<fenix::VertexArray> m_VertexArray;
+    std::shared_ptr<fenix::EditorCamera> m_EditorCamera;
 };

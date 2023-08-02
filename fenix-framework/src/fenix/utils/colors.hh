@@ -41,6 +41,8 @@ namespace fenix {
             case Color::Magenta:    return { 1.0f, 0.0f, 1.0f, 1.0f };
             case Color::Rose:       return { 1.0f, 0.0f, 0.5f, 1.0f };
         }
+
+        return glm::vec4{ 1.0f };
     }
 
 } // namespace fenix

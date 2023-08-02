@@ -1,9 +1,9 @@
 #include <string>
 #include <filesystem>
 #include <unordered_map>
-
-#include <glad/glad.h>
 #include <glm/glm.hpp>
+#include <glad/glad.h>
+
 #include "fenix/utils/std_types.hh"
 
 namespace fenix {

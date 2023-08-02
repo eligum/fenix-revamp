@@ -1,5 +1,3 @@
-#include <glad/glad.h>
-
 #include "fenix/backend/linux_window.hh"
 #include "fenix/backend/opengl_context.hh"
 
@@ -8,6 +6,8 @@
 #include "fenix/events/key_event.hh"
 #include "fenix/events/mouse_event.hh"
 #include "fenix/input/input.hh"
+
+#include <GLFW/glfw3.h>
 
 static void GLFWErrorCallback(int error, const char* description)
 {
@@ -176,7 +176,7 @@ namespace fenix {
 
     void LinuxWindow::SetViewportSize(u32 width, u32 height)
     {
-        glViewport(0, 0, width, height);
+        // glViewport(0, 0, width, height);
     }
 
     bool LinuxWindow::IsVSync() const

@@ -3,9 +3,10 @@
 #include "fenix/core/window.hh"
 #include "fenix/backend/opengl_context.hh"
 
-#include <GLFW/glfw3.h>
+struct GLFWwindow; // Forward declaration to avoid having to include GLFW here
 
 namespace fenix {
+
 
     class LinuxWindow : public Window
     {

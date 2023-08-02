@@ -39,6 +39,8 @@ void EditorLayer::OnAttach()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    m_EditorCamera = std::make_shared<EditorCamera>();
 }
 
 void EditorLayer::OnDetach()
@@ -50,9 +52,14 @@ void EditorLayer::OnUpdate(fenix::TimeStep ts)
     RenderCommand::SetClearColor(Color::Chartreuse);
     RenderCommand::Clear();
 
+    m_EditorCamera->OnUpdate(ts);
+
     Renderer::BeginScene();
 
     m_Shader->Bind();
+    m_Shader->SetMat4("u_view", m_EditorCamera->GetViewMatrix());
+    m_Shader->SetMat4("u_proj", m_EditorCamera->GetProjectionMatrix());
+
     Renderer::Submit(m_VertexArray);
 
     Renderer::EndScene();

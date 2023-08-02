@@ -1,7 +1,6 @@
 #pragma once
 
 #include "fenix/utils/std_types.hh"
-#include <GLFW/glfw3.h>
 
 namespace fenix {
 
@@ -9,9 +8,9 @@ namespace fenix {
 
     enum class CursorMode
     {
-        Normal   = GLFW_CURSOR_NORMAL,
-        Hidden   = GLFW_CURSOR_HIDDEN,
-        Disabled = GLFW_CURSOR_DISABLED,
+        Normal   = 0x00034001, // GLFW_CURSOR_NORMAL
+        Hidden   = 0x00034002, // GLFW_CURSOR_HIDDEN,
+        Disabled = 0x00034003, // GLFW_CURSOR_DISABLED,
     };
 
     // NOTE(Miguel): By not using an enum class we avoid having to cast to an int when we need

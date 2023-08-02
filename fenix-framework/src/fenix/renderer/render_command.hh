@@ -1,8 +1,8 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include "fenix/renderer/buffer.hh"
 #include "fenix/utils/colors.hh"
-#include <glm/glm.hpp>
 
 namespace fenix {
 

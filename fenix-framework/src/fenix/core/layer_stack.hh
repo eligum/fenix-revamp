@@ -1,9 +1,9 @@
 #pragma once
 
-#include "fenix/core/layer.hh"
-
 #include <vector>
 #include <cstdint>
+
+#include "fenix/core/layer.hh"
 
 namespace fenix {
 
