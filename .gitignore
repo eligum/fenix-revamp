@@ -4,6 +4,7 @@
 *.so
 *.out
 *.exe
+*.log
 .ignore
 
 # Directories

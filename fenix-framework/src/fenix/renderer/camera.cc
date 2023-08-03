@@ -69,7 +69,7 @@ namespace fenix {
     {
         const f32 factor = 0.5f * def::EDITOR_CAMERA_ROTATION_SPEED;
         m_XZ_angle += delta.x * factor;
-        m_XZ_angle += delta.y * factor;
+        m_XY_angle += delta.y * factor;
 
         update_view_matrix();
     }
