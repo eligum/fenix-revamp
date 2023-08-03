@@ -50,7 +50,7 @@ namespace fenix {
         m_View = glm::lookAtRH(position, m_Center, m_Up);
     }
 
-    void EditorCamera::OnUpdate(TimeStep ts)
+    void EditorCamera::OnUpdate(TimeStep /* ts */)
     {
         if (Input::IsKeyPressed(Key::LeftAlt))
         {
@@ -67,6 +67,11 @@ namespace fenix {
                 // pan_camera(delta);
             }
         }
+
+        if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
+        {
+            m_PreviousMousePosition = Input::GetCursorPosition();
+        }
     }
 
     void EditorCamera::rotate_camera(const glm::vec2& delta)
@@ -74,6 +79,7 @@ namespace fenix {
         const f32 factor = 0.05f * def::EDITOR_CAMERA_ROTATION_SPEED;
         m_XZ_angle += delta.x * factor;
         m_XY_angle += delta.y * factor;
+        m_XY_angle = glm::clamp(m_XY_angle, glm::radians(-89.9f), glm::radians(89.9f));
 
         update_view_matrix();
     }
