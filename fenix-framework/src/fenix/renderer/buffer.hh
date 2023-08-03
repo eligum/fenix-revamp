@@ -56,12 +56,12 @@ namespace fenix {
             u32 offset;
             bool normalize;
 
-            Element(ShaderDataType type, const std::string& name, bool normalize = false)
-                : type(type),
-                  name(name),
-                  size(ShaderDataType_size(type)),
+            Element(ShaderDataType _type, const std::string& _name, bool _normalize = false)
+                : type(_type),
+                  name(_name),
+                  size(ShaderDataType_size(_type)),
                   offset(0),
-                  normalize(normalize)
+                  normalize(_normalize)
             {}
 
             /// Returns the number of components of the `ShaderDataType` associated with this

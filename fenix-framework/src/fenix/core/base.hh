@@ -28,5 +28,6 @@
         return this->fn(std::forward<decltype(args)>(args)...); \
     }
 
+#include "fenix/core/macros.hh"
 #include "fenix/core/log.hh"
 #include "fenix/utils/std_types.hh"

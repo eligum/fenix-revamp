@@ -1,7 +1,11 @@
 #include "fenix/renderer/camera.hh"
 #include "fenix/input/input.hh"
+#include "fenix/core/base.hh"
 
+FX_DISABLE_WARNING_PUSH
+FX_DISABLE_WARNING_USELESS_CAST
 #include <glm/ext.hpp>
+FX_DISABLE_WARNING_POP
 
 namespace fenix {
 
@@ -67,7 +71,7 @@ namespace fenix {
 
     void EditorCamera::rotate_camera(const glm::vec2& delta)
     {
-        const f32 factor = 0.5f * def::EDITOR_CAMERA_ROTATION_SPEED;
+        const f32 factor = 0.05f * def::EDITOR_CAMERA_ROTATION_SPEED;
         m_XZ_angle += delta.x * factor;
         m_XY_angle += delta.y * factor;
 

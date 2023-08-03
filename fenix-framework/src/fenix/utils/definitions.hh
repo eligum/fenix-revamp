@@ -10,7 +10,7 @@ namespace fenix::def {
 
     constexpr auto EDITOR_CAMERA_XZ_ANGLE       = -45.0f;
     constexpr auto EDITOR_CAMERA_XY_ANGLE       = 45.0f;
-    constexpr auto EDITOR_CAMERA_DISTANCE       = 10.0f;
+    constexpr auto EDITOR_CAMERA_DISTANCE       = 4.0f;
     constexpr auto EDITOR_CAMERA_CENTER         = glm::vec3{0.0f, 0.0f, 0.0f};
     constexpr auto EDITOR_CAMERA_UP             = glm::vec3{0.0f, 1.0f, 0.0f};
     constexpr auto EDITOR_CAMERA_FOV            = 45.0f;

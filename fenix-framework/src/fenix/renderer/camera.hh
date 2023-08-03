@@ -27,6 +27,8 @@ namespace fenix {
     class EditorCamera : public Camera
     {
     public:
+        /// A camera that rotates around a certain point which can be moved through panning.
+        /// This constructor expects angles to be in degrees.
         EditorCamera(f32 xz_angle     = def::EDITOR_CAMERA_XZ_ANGLE,
                      f32 xy_angle     = def::EDITOR_CAMERA_XY_ANGLE,
                      f32 distance     = def::EDITOR_CAMERA_DISTANCE,

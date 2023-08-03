@@ -14,13 +14,13 @@ namespace fenix {
         bool resizable;
         bool maximized;
 
-        WindowProps(const std::string& title = "FENIX - Default Title",
-                    u32 width = 1280,
-                    u32 height = 720,
-                    bool resizeable = true,
-                    bool maximized = false)
-            : title(title), width(width), height(height), resizable(resizeable),
-              maximized(maximized) {}
+        WindowProps(const std::string& _title = "FENIX - Default Title",
+                    u32 _width = 1280,
+                    u32 _height = 720,
+                    bool _resizeable = true,
+                    bool _maximized = false)
+            : title(_title), width(_width), height(_height), resizable(_resizeable),
+              maximized(_maximized) {}
     };
 
     /// Interface representing a desktop system based window.

@@ -49,7 +49,7 @@ void EditorLayer::OnDetach()
 
 void EditorLayer::OnUpdate(fenix::TimeStep ts)
 {
-    RenderCommand::SetClearColor(Color::Chartreuse);
+    RenderCommand::SetClearColor(Color::Black);
     RenderCommand::Clear();
 
     m_EditorCamera->OnUpdate(ts);
