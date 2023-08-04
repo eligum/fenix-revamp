@@ -12,7 +12,7 @@ namespace fenix {
     class BoundingBox
     {
     public:
-        /// Creates a bounding box object from a sequence of floating point values,
+        /// Creates a bounding box object from a range of floating point values,
         /// interpreted as 3D vertices, delimited by the `begin` and `end` iterators.
         template <typename Iter>
         BoundingBox(Iter begin, Iter end);

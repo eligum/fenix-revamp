@@ -10,6 +10,11 @@ namespace fenix {
             "Iterator value_type must be a floating point type."
         );
 
+        FENIX_ASSERT(
+            (end - begin) % 3 == 0,
+            "The number of elements in the range specified by the iterators must be a multiple of 3."
+        );
+
         if (end - begin < 6)
         {
             CORE_LOG_ERROR("At least 2 vertices are needed to construct a `BoundingBox`");

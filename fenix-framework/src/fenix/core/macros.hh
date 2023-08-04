@@ -1,5 +1,6 @@
 #pragma once
 
+// Compiler warnings
 #if defined(_MSC_VER)
     #define FX_DISABLE_WARNING_PUSH            __pragma(warning( push ))
     #define FX_DISABLE_WARNING_POP             __pragma(warning( pop ))
@@ -16,4 +17,16 @@
 
     #define FX_DISABLE_WARNING_USELESS_CAST       FX_DISABLE_WARNING(-Wuseless-cast)
     #define FX_DISABLE_WARNING_VARIABLE_SHADOWING FX_DISABLE_WARNING(-Wshadow)
+#endif
+
+// Debugging break points
+#if defined(_MSC_VER)
+    #define FX_DEBUGBREAK() __debugbreak()
+#elif defined(__GNUC__) || defined(__clang__)
+    #include <csignal>
+    #if defined(SIGTRAP)
+        #define FX_DEBUGBREAK() std::raise(SIGTRAP)
+    #else
+        #define FX_DEBUGBREAK() std::raise(SIGABRT)
+    #endif
 #endif
