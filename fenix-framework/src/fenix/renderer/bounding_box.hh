@@ -32,7 +32,7 @@ namespace fenix {
         glm::vec3 ComputeSize() const { return m_MaxPoint - m_MinPoint; }
 
         /// Returns the center of the bounding box.
-        glm::vec3 ComputeCenter() const { return (m_MaxPoint - m_MinPoint) / 2.0f; }
+        glm::vec3 ComputeCenter() const { return (m_MaxPoint + m_MinPoint) / 2.0f; }
 
         /// Returns the center of the base of the bounding box.
         glm::vec3 ComputeBottomCenter() const

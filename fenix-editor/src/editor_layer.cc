@@ -67,8 +67,11 @@ void EditorLayer::OnUpdate(fenix::TimeStep ts)
 
 void EditorLayer::OnEvent(fenix::Event& event)
 {
-    auto dispacher = EventDispatcher{event};
-    // dispacher.Dispatch<MouseScrolledEvent>(FENIX_BIND_EVENT_FN());
+    m_EditorCamera->OnEvent(event);
+
+    // auto dispacher = EventDispatcher{event};
+    // dispacher.Dispatch<KeyPressedEvent>(FENIX_BIND_EVENT_FN());
+    // dispacher.Dispatch<MouseButtonPressedEvent>(FENIX_BIND_EVENT_FN());
 }
 
 void EditorLayer::OnRenderUI()

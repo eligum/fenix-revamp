@@ -7,7 +7,7 @@ namespace fenix {
     {
         static_assert(
             std::is_same_v<typename std::iterator_traits<Iter>::value_type, f32>,
-            "Iterator value_type must be a floating point type."
+            "Iterator value_type must be a floating point scalar type."
         );
 
         FENIX_ASSERT(
