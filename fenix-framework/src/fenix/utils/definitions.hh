@@ -1,6 +1,8 @@
 #pragma once
 
 #include <glm/vec3.hpp>
+#include <glm/ext/scalar_constants.hpp>
+#include "fenix/utils/std_types.hh"
 
 namespace fenix::def {
 
@@ -13,7 +15,7 @@ namespace fenix::def {
     constexpr auto EDITOR_CAMERA_DISTANCE       = 4.0f;
     constexpr auto EDITOR_CAMERA_CENTER         = glm::vec3{0.0f, 0.0f, 0.0f};
     constexpr auto EDITOR_CAMERA_UP             = glm::vec3{0.0f, 1.0f, 0.0f};
-    constexpr auto EDITOR_CAMERA_FOV            = 45.0f;
+    constexpr auto EDITOR_CAMERA_FOV            = 60.0f;
     constexpr auto EDITOR_CAMERA_ASPECT_RATIO   = 16.0f / 9.0f;
     constexpr auto EDITOR_CAMERA_Z_NEAR         = 0.1f;
     constexpr auto EDITOR_CAMERA_Z_FAR          = 100.0f;

@@ -25,7 +25,7 @@ namespace fenix {
                                f32 aspect_ratio,
                                f32 z_near,
                                f32 z_far)
-        : m_Fov(fov), m_AspectRatio(aspect_ratio), m_NearClip(z_near), m_FarClip(z_far),
+        : m_Fov(glm::radians(fov)), m_AspectRatio(aspect_ratio), m_NearClip(z_near), m_FarClip(z_far),
           m_XZ_angle(glm::radians(xz_angle)), m_XY_angle(glm::radians(xy_angle)),
           m_Distance(distance), m_FocalPoint(center), m_Up(up)
     {
@@ -44,8 +44,8 @@ namespace fenix {
         if (Input::IsKeyPressed(Key::LeftAlt))
         {
             auto mouse_pos = Input::GetCursorPosition();
-            auto delta = mouse_pos - m_PreviousMousePosition;
-            m_PreviousMousePosition = mouse_pos;
+            auto delta = mouse_pos - m_LastMousePosition;
+            m_LastMousePosition = mouse_pos;
 
             if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
             {
@@ -59,7 +59,7 @@ namespace fenix {
 
         if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
         {
-            m_PreviousMousePosition = Input::GetCursorPosition();
+            m_LastMousePosition = Input::GetCursorPosition();
         }
     }
 
@@ -108,14 +108,14 @@ namespace fenix {
         // TODO
     }
 
+    // TODO: Use a less rudimentary zoom system
     void EditorCamera::zoom_camera(f32 delta)
     {
-        f32 speed = calculate_zoom_speed();
-        LOG_TRACE("Before zoom:");
-        LOG_TRACE("  speed {}", speed);
-        LOG_TRACE("  delta {}", delta);
-        LOG_TRACE("  distance {}", m_Distance);
-        m_Distance = std::max(m_Distance - delta * speed, 1.0f);
+        f32 factor = (delta > 0) ? 0.8 : (1 / 0.8);
+        m_Distance = std::clamp(factor * m_Distance, 1.0f, 1009.742f);
+        // LOG_TRACE("After zoom:");
+        // LOG_TRACE("  delta {}", delta);
+        // LOG_TRACE("  distance {}", m_Distance);
         update_view_matrix();
     }
 
@@ -129,8 +129,9 @@ namespace fenix {
 
     f32 EditorCamera::calculate_zoom_speed() const
     {
-        const f32 factor = 0.2f * def::EDITOR_CAMERA_ZOOM_SPEED;
-        return std::min(factor * m_Distance, 50.0f);
+        f32 factor = 0.2f * def::EDITOR_CAMERA_ZOOM_SPEED;
+        f32 speed = std::min(factor * m_Distance * m_Distance, 100.0f);
+        return speed;
     }
 
     void EditorCamera::FitToBox(const BoundingBox& box)

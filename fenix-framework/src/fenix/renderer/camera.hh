@@ -47,6 +47,7 @@ namespace fenix {
         auto GetViewMatrix() const -> const glm::mat4& { return m_View; }
         auto GetProjectionViewMatrix() const -> glm::mat4 { return m_Projection * m_View; }
         f32 GetDistance() const { return m_Distance; }
+        f32 GetFOV() const { return m_Fov; }
 
         auto GetPosition() const -> const glm::vec3& { return m_Position; }
         auto GetUpDirection() const -> glm::vec3;
@@ -54,6 +55,7 @@ namespace fenix {
         auto GetForwardDirection() const -> glm::vec3;
 
         void SetDistance(f32 distance) { m_Distance = distance; }
+        void SetFOV(f32 fov) { m_Fov = fov; }
         void SetViewportSize(f32 width, f32 height);
 
         /// Adjusts the camera parameters so that the view frustum clips exactly around
@@ -91,7 +93,8 @@ namespace fenix {
 
         f32 m_ViewportWidth;
         f32 m_ViewportHeight;
-        glm::vec2 m_PreviousMousePosition;
+
+        glm::vec2 m_LastMousePosition;
     };
 
 } // namespace fenix
