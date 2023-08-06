@@ -39,7 +39,7 @@ namespace fenix {
         dispacher.Dispatch<MouseScrolledEvent>(FENIX_BIND_EVENT_FN(EditorCamera::on_mouse_scroll));
     }
 
-    void EditorCamera::OnUpdate(TimeStep /* ts */)
+    void EditorCamera::OnUpdate(TimeStep ts)
     {
         if (Input::IsKeyPressed(Key::LeftAlt))
         {
@@ -51,10 +51,31 @@ namespace fenix {
             {
                 rotate_camera(delta);
             }
-            else if (Input::IsMouseButtonPressed(Mouse::ButtonMiddle))
+            else if (Input::IsMouseButtonPressed(Mouse::ButtonRight))
             {
                 pan_camera(delta);
             }
+        }
+
+        if (Input::IsKeyPressed(Key::Up))
+        {
+            m_FocalPoint += 2.0f * ts * GetUpDirection();
+            update_view_matrix();
+        }
+        if (Input::IsKeyPressed(Key::Left))
+        {
+            m_FocalPoint -= 2.0f * ts * GetRightDirection();
+            update_view_matrix();
+        }
+        if (Input::IsKeyPressed(Key::Right))
+        {
+            m_FocalPoint += 2.0f * ts * GetRightDirection();
+            update_view_matrix();
+        }
+        if (Input::IsKeyPressed(Key::Down))
+        {
+            m_FocalPoint -= 2.0f * ts * GetUpDirection();
+            update_view_matrix();
         }
 
         if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
@@ -73,7 +94,7 @@ namespace fenix {
             -sin(m_XZ_angle) * cos(m_XY_angle),
         };
 
-        return m_Distance * normalize(V);
+        return m_FocalPoint + m_Distance * normalize(V);
     }
 
     void EditorCamera::update_projection_matrix()
@@ -105,7 +126,10 @@ namespace fenix {
 
     void EditorCamera::pan_camera(const glm::vec2& delta)
     {
-        // TODO
+        auto [x_factor, y_factor] = calculate_pan_speed();
+        m_FocalPoint += -GetRightDirection() * x_factor * delta.x;
+        m_FocalPoint += GetUpDirection() * y_factor * delta.y;
+        update_view_matrix();
     }
 
     // TODO: Use a less rudimentary zoom system
@@ -121,9 +145,8 @@ namespace fenix {
 
     auto EditorCamera::calculate_pan_speed() const -> std::tuple<f32, f32>
     {
-        // TODO
-        f32 x_factor = 0.0;
-        f32 y_factor = 0.0;
+        f32 x_factor = 0.01f * def::EDITOR_CAMERA_PAN_SPEED * m_Distance;
+        f32 y_factor = 0.01f * def::EDITOR_CAMERA_PAN_SPEED * m_Distance;
         return {x_factor, y_factor};
     }
 
@@ -139,7 +162,7 @@ namespace fenix {
         auto new_center = box.ComputeCenter();
         f32 radius = glm::length(box.GetMaxPoint() - new_center);
         f32 alpha = glm::radians(m_Fov / 2.0f);
-        f32 distance = radius / glm::sin(alpha);
+        f32 distance = radius * glm::sin(alpha);
 
         m_FocalPoint = new_center;
         m_Distance = distance;
