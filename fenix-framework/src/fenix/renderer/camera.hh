@@ -2,11 +2,18 @@
 
 #include <glm/glm.hpp>
 #include "fenix/events/mouse_event.hh"
+#include "fenix/events/key_event.hh"
 #include "fenix/renderer/bounding_box.hh"
 #include "fenix/utils/std_types.hh"
 #include "fenix/utils/definitions.hh"
 
 namespace fenix {
+
+    enum class ProjectionType
+    {
+        Perspective,
+        Orthographic
+    };
 
     class Camera
     {
@@ -56,6 +63,7 @@ namespace fenix {
 
         void SetDistance(f32 distance) { m_Distance = distance; }
         void SetFOV(f32 fov) { m_Fov = fov; }
+        void SetProjectionType(ProjectionType type);
         void SetViewportSize(f32 width, f32 height);
 
         /// Adjusts the camera parameters so that the view frustum clips exactly around
@@ -71,17 +79,22 @@ namespace fenix {
         void rotate_camera(const glm::vec2& delta);
         void pan_camera(const glm::vec2& delta);
         void zoom_camera(f32 delta);
+        void toggle_camera_projection();
         auto calculate_position() const -> glm::vec3;
         auto calculate_pan_speed() const -> std::tuple<f32, f32>;
-        f32 calculate_zoom_speed() const;
+        f32 calculate_viewport_height() const;
 
         bool on_mouse_scroll(const MouseScrolledEvent& event);
+        bool on_key_press(const KeyPressedEvent& event);
 
     private:
+        ProjectionType m_ProjectionType;
+
         f32 m_Fov;
         f32 m_AspectRatio;
-        f32 m_NearClip;
-        f32 m_FarClip;
+        f32 m_Znear;
+        f32 m_Zfar;
+        f32 m_OrthoHeight;
 
         f32 m_XZ_angle;
         f32 m_XY_angle;
@@ -90,9 +103,6 @@ namespace fenix {
         glm::vec3 m_Up;
         glm::vec3 m_Position;
         glm::mat4 m_View;
-
-        f32 m_ViewportWidth;
-        f32 m_ViewportHeight;
 
         glm::vec2 m_LastMousePosition;
     };

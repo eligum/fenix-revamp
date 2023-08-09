@@ -14,7 +14,9 @@ namespace fenix {
     // Editor Camera //////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    // TODO(Miguel): Implement rotations using quaternions
+    // TODO(Miguel):
+    //   1) Improve camera view controls
+    //   2) Implement rotations using quaternions
 
     EditorCamera::EditorCamera(f32 xz_angle,
                                f32 xy_angle,
@@ -25,8 +27,8 @@ namespace fenix {
                                f32 aspect_ratio,
                                f32 z_near,
                                f32 z_far)
-        : m_Fov(glm::radians(fov)), m_AspectRatio(aspect_ratio), m_NearClip(z_near), m_FarClip(z_far),
-          m_XZ_angle(glm::radians(xz_angle)), m_XY_angle(glm::radians(xy_angle)),
+        : m_ProjectionType(ProjectionType::Perspective), m_Fov(glm::radians(fov)), m_AspectRatio(aspect_ratio),
+          m_Znear(z_near), m_Zfar(z_far), m_XZ_angle(glm::radians(xz_angle)), m_XY_angle(glm::radians(xy_angle)),
           m_Distance(distance), m_FocalPoint(center), m_Up(up)
     {
         update_projection_matrix();
@@ -37,9 +39,10 @@ namespace fenix {
     {
         auto dispacher = EventDispatcher{event};
         dispacher.Dispatch<MouseScrolledEvent>(FENIX_BIND_EVENT_FN(EditorCamera::on_mouse_scroll));
+        dispacher.Dispatch<KeyPressedEvent>(FENIX_BIND_EVENT_FN(EditorCamera::on_key_press));
     }
 
-    void EditorCamera::OnUpdate(TimeStep ts)
+    void EditorCamera::OnUpdate(TimeStep)
     {
         if (Input::IsKeyPressed(Key::LeftAlt))
         {
@@ -55,27 +58,6 @@ namespace fenix {
             {
                 pan_camera(delta);
             }
-        }
-
-        if (Input::IsKeyPressed(Key::Up))
-        {
-            m_FocalPoint += 2.0f * ts * GetUpDirection();
-            update_view_matrix();
-        }
-        if (Input::IsKeyPressed(Key::Left))
-        {
-            m_FocalPoint -= 2.0f * ts * GetRightDirection();
-            update_view_matrix();
-        }
-        if (Input::IsKeyPressed(Key::Right))
-        {
-            m_FocalPoint += 2.0f * ts * GetRightDirection();
-            update_view_matrix();
-        }
-        if (Input::IsKeyPressed(Key::Down))
-        {
-            m_FocalPoint -= 2.0f * ts * GetUpDirection();
-            update_view_matrix();
         }
 
         if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
@@ -97,9 +79,28 @@ namespace fenix {
         return m_FocalPoint + m_Distance * normalize(V);
     }
 
+    f32 EditorCamera::calculate_viewport_height() const
+    {
+        return 2.0f * (m_Distance * glm::tan(m_Fov / 2.0f));
+    }
+
     void EditorCamera::update_projection_matrix()
     {
-        m_Projection = glm::perspectiveRH(m_Fov, m_AspectRatio, m_NearClip, m_FarClip);
+        if (m_ProjectionType == ProjectionType::Perspective)
+        {
+            m_Projection = glm::perspectiveRH(m_Fov, m_AspectRatio, m_Znear, m_Zfar);
+        }
+        else if (m_ProjectionType == ProjectionType::Orthographic)
+        {
+            m_OrthoHeight = calculate_viewport_height();
+
+            f32 ortho_l = m_OrthoHeight * m_AspectRatio * -0.5f;
+            f32 ortho_r = m_OrthoHeight * m_AspectRatio *  0.5f;
+            f32 ortho_b = m_OrthoHeight * -0.5f;
+            f32 ortho_t = m_OrthoHeight *  0.5f;
+
+            m_Projection = glm::orthoRH(ortho_l, ortho_r, ortho_b, ortho_t, m_Znear, m_Zfar);
+        }
     }
 
     void EditorCamera::update_view_matrix()
@@ -112,6 +113,15 @@ namespace fenix {
     {
         f32 offset = event.GetYOffset();
         zoom_camera(offset);
+        return false;
+    }
+
+    bool EditorCamera::on_key_press(const KeyPressedEvent& event)
+    {
+        if (event.GetKeyCode() == Key::O && event.GetRepeatCount() == 0)
+        {
+            toggle_camera_projection();
+        }
         return false;
     }
 
@@ -141,6 +151,24 @@ namespace fenix {
         // LOG_TRACE("  delta {}", delta);
         // LOG_TRACE("  distance {}", m_Distance);
         update_view_matrix();
+        if (m_ProjectionType == ProjectionType::Orthographic)
+        {
+            update_projection_matrix();
+        }
+    }
+
+    void EditorCamera::toggle_camera_projection()
+    {
+        if (m_ProjectionType == ProjectionType::Perspective)
+        {
+            SetProjectionType(ProjectionType::Orthographic);
+            CORE_LOG_TRACE("EditorCamera projection type set to 'Orthographic'");
+        }
+        else
+        {
+            SetProjectionType(ProjectionType::Perspective);
+            CORE_LOG_TRACE("EditorCamera projection type set to 'Perspective'");
+        }
     }
 
     auto EditorCamera::calculate_pan_speed() const -> std::tuple<f32, f32>
@@ -148,13 +176,6 @@ namespace fenix {
         f32 x_factor = 0.01f * def::EDITOR_CAMERA_PAN_SPEED * m_Distance;
         f32 y_factor = 0.01f * def::EDITOR_CAMERA_PAN_SPEED * m_Distance;
         return {x_factor, y_factor};
-    }
-
-    f32 EditorCamera::calculate_zoom_speed() const
-    {
-        f32 factor = 0.2f * def::EDITOR_CAMERA_ZOOM_SPEED;
-        f32 speed = std::min(factor * m_Distance * m_Distance, 100.0f);
-        return speed;
     }
 
     void EditorCamera::FitToBox(const BoundingBox& box)
@@ -166,16 +187,20 @@ namespace fenix {
 
         m_FocalPoint = new_center;
         m_Distance = distance;
-        m_NearClip = distance - radius;
-        m_FarClip = distance + radius;
+        m_Znear = distance - radius;
+        m_Zfar = distance + radius;
         update_view_matrix();
     }
 
     void EditorCamera::SetViewportSize(f32 width, f32 height)
     {
-        m_ViewportWidth = width;
-        m_ViewportHeight = height;
-        m_AspectRatio = height / width;
+        m_AspectRatio = width / height;
+        update_projection_matrix();
+    }
+
+    void EditorCamera::SetProjectionType(ProjectionType type)
+    {
+        m_ProjectionType = type;
         update_projection_matrix();
     }
 
