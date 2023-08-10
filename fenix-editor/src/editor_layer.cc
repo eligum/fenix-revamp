@@ -54,13 +54,9 @@ void EditorLayer::OnUpdate(fenix::TimeStep ts)
 
     m_EditorCamera->OnUpdate(ts);
 
-    Renderer::BeginScene();
+    Renderer::BeginScene(*m_EditorCamera);
 
-    m_Shader->Bind();
-    m_Shader->SetMat4("u_view", m_EditorCamera->GetViewMatrix());
-    m_Shader->SetMat4("u_proj", m_EditorCamera->GetProjectionMatrix());
-
-    Renderer::Submit(m_VertexArray);
+    Renderer::Submit(m_Shader, m_VertexArray);
 
     Renderer::EndScene();
 }
