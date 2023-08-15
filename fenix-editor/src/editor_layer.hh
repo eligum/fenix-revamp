@@ -5,20 +5,24 @@
 #include <fenix/renderer/shader.hh>
 #include <fenix/renderer/camera.hh>
 
-class EditorLayer : public fenix::Layer
-{
-public:
-    EditorLayer() = default;
-    ~EditorLayer() = default;
+namespace fenix {
 
-    void OnAttach() override;
-    void OnDetach() override;
-    void OnUpdate(fenix::TimeStep ts) override;
-    void OnEvent(fenix::Event&) override;
-    void OnRenderUI() override;
+    class EditorLayer : public Layer
+    {
+    public:
+        EditorLayer() = default;
+        ~EditorLayer() = default;
 
-private:
-    std::shared_ptr<fenix::Shader> m_Shader;
-    std::shared_ptr<fenix::VertexArray> m_VertexArray;
-    std::shared_ptr<fenix::EditorCamera> m_EditorCamera;
-};
+        void OnAttach() override;
+        void OnDetach() override;
+        void OnUpdate(TimeStep ts) override;
+        void OnEvent(Event&) override;
+        void OnRenderUI() override;
+
+    private:
+        Ref<Shader> m_Shader;
+        Ref<VertexArray> m_VertexArray;
+        Ref<EditorCamera> m_EditorCamera;
+    };
+
+}

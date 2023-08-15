@@ -24,8 +24,8 @@ void EditorLayer::OnAttach()
         2, 3, 0,
     };
 
-    auto vertex_buff = std::make_shared<VertexBuffer>(vertices.data(), vertices.size());
-    auto index_buff = std::make_shared<IndexBuffer>(indices.data(), indices.size());
+    auto vertex_buff = CreateRef<VertexBuffer>(vertices.data(), vertices.size());
+    auto index_buff = CreateRef<IndexBuffer>(indices.data(), indices.size());
 
     vertex_buff->SetLayout({
         {ShaderDataType::Float3, "a_position"},
@@ -33,7 +33,7 @@ void EditorLayer::OnAttach()
         {ShaderDataType::Float2, "a_texcoord"},
     });
 
-    m_VertexArray = std::make_shared<VertexArray>();
+    m_VertexArray = CreateRef<VertexArray>();
     m_VertexArray->SetVertexBuffer(vertex_buff);
     m_VertexArray->SetIndexBuffer(index_buff);
 
@@ -41,7 +41,7 @@ void EditorLayer::OnAttach()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    m_EditorCamera = std::make_shared<EditorCamera>();
+    m_EditorCamera = CreateRef<EditorCamera>();
 }
 
 void EditorLayer::OnDetach()

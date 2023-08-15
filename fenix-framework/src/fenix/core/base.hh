@@ -28,5 +28,27 @@
         return this->fn(std::forward<decltype(args)>(args)...); \
     }
 
+namespace fenix {
+
+    template <typename T>
+    using Scope = std::unique_ptr<T>;
+
+    template <typename T, typename ...Args>
+    constexpr auto CreateScope(Args&&... args) -> Scope<T>
+    {
+        return std::make_unique<T>(std::forward<Args>(args)...);
+    }
+
+    template <typename T>
+    using Ref = std::shared_ptr<T>;
+
+    template <typename T, typename ...Args>
+    constexpr auto CreateRef(Args&&... args) -> Ref<T>
+    {
+        return std::make_shared<T>(std::forward<Args>(args)...);
+    }
+
+}
+
 #include "fenix/core/log.hh"
 #include "fenix/utils/std_types.hh"
