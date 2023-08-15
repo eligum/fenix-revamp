@@ -13,10 +13,11 @@ namespace fenix {
     {
     }
 
-    void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertex_array)
+    void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertex_array, const glm::mat4& transform)
     {
         shader->Bind();
         shader->SetMat4("u_projection_view", s_SceneData->ProjectionViewMatrix);
+        shader->SetMat4("u_transform", transform);
 
         vertex_array->Bind();
         RenderCommand::DrawIndexed(vertex_array);

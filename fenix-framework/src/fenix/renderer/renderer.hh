@@ -16,7 +16,7 @@ namespace fenix {
         // command should be put into a queue for later optimization. For instance, you
         // might want to render all object of the scene with the same material in one
         // draw call.
-        static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertex_array);
+        static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertex_array, const glm::mat4& trasnform = glm::mat4{1.0f});
 
     private:
         // TODO: Revise this design, the renderer should not have state.

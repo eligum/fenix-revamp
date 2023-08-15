@@ -1,5 +1,6 @@
 #include "editor_layer.hh"
 #include <glad/glad.h>
+#include <glm/ext/matrix_transform.hpp>
 
 using namespace fenix;
 
@@ -56,7 +57,20 @@ void EditorLayer::OnUpdate(fenix::TimeStep ts)
 
     Renderer::BeginScene(*m_EditorCamera);
 
-    Renderer::Submit(m_Shader, m_VertexArray);
+    /// End goal API
+    // auto material = std::make_shared<Material>(m_Shader);
+    // auto material_i = std::make_shared<MaterialInstance>(material); // For more specific data (degradation texture...)
+    // material_i->SetValue("u_color", Color::Red);
+    // material_i->SetTexture("u_albedo_map", texture) // How to create an albedo map with gimp?
+    // mesh->Apply/SetMaterial(material_i);
+
+    for (i32 i = 0; i < 4; ++i)
+    {
+        auto transform = glm::mat4(1.0f);
+        transform = glm::rotate(transform, i * glm::radians(90.0f), Axis::Y);
+        transform = glm::translate(transform, glm::vec3{0.0f, 0.0f, 0.5f});
+        Renderer::Submit(m_Shader, m_VertexArray, transform);
+    }
 
     Renderer::EndScene();
 }

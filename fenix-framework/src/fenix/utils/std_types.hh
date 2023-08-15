@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <chrono>
+#include <glm/vec3.hpp>
 
 
 /// NOTE:
@@ -49,6 +50,14 @@ namespace fenix {
 
     private:
         std::chrono::duration<f32> m_Time;
+    };
+
+    class Axis
+    {
+    public:
+        static constexpr auto X = glm::vec3{1.0f, 0.0f, 0.0f};
+        static constexpr auto Y = glm::vec3{0.0f, 1.0f, 0.0f};
+        static constexpr auto Z = glm::vec3{1.0f, 0.0f, 1.0f};
     };
 
 } // namespace fenix
