@@ -8,8 +8,8 @@ void EditorLayer::OnAttach()
 {
     // Create shader from source files
     m_Shader.reset(Shader::Create(
-        "assets-2/shaders/test.vert",
-        "assets-2/shaders/test.frag"
+        "assets/shaders/test.vert",
+        "assets/shaders/test.frag"
     ));
 
     const std::vector<f32> vertices = {
