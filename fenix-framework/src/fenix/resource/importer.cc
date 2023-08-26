@@ -5,7 +5,7 @@
 
 namespace fs = std::filesystem;
 
-auto ImportAssetFromFile(const fs::path& path) -> void
+void ImportAssetFromFile(const fs::path& path)
 {
     auto importer = Assimp::Importer{};
 

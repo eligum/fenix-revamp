@@ -3,6 +3,7 @@
 #include <fenix.hh>
 #include <fenix/renderer/buffer.hh>
 #include <fenix/renderer/shader.hh>
+#include <fenix/renderer/mesh.hh>
 #include <fenix/renderer/camera.hh>
 
 namespace fenix {
@@ -22,6 +23,7 @@ namespace fenix {
     private:
         Ref<Shader> m_Shader;
         Ref<VertexArray> m_VertexArray;
+        Ref<Mesh> m_Mesh;
         Ref<EditorCamera> m_EditorCamera;
     };
 

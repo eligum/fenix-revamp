@@ -214,10 +214,10 @@ namespace fenix {
         ~VertexArray();
 
         /// Associates a `VertexBuffer` to this `VertexArray`.
-        void SetVertexBuffer(const std::shared_ptr<VertexBuffer>& buffer);
+        void SetVertexBuffer(const Ref<VertexBuffer>& buffer);
 
         /// Associates an `IndexBuffer` to this `VertexArray`.
-        void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& buffer);
+        void SetIndexBuffer(const Ref<IndexBuffer>& buffer);
 
         /// Returns the number of indices of the associated `IndexBuffer`, or 0 if one hasn't
         /// been set yet.
@@ -234,8 +234,8 @@ namespace fenix {
 
     private:
         u32 m_RendererID;
-        std::shared_ptr<VertexBuffer> m_VertexBuffer;
-        std::shared_ptr<IndexBuffer> m_IndexBuffer;
+        Ref<VertexBuffer> m_VertexBuffer;
+        Ref<IndexBuffer> m_IndexBuffer;
     };
 
 } // namespace fenix

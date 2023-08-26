@@ -2,7 +2,13 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <variant>
+#include <optional>
 #include "fenix/renderer/shader.hh"
+
+// TODO: The Material class still needs a lot of work but for now it just has
+// the necessary elements to be minimally functional.
 
 namespace fenix {
 
@@ -20,18 +26,19 @@ namespace fenix {
     // ------------------------------------------------------------------------
     // PBR material properties
     // ------------------------------------------------------------------------
-    inline constexpr auto MATKEY_BASE_COLOR = "mat.reflectivity";
+    inline constexpr auto MATKEY_BASE_COLOR = "mat.base_color";
 
     ///////////////////////////////////////////////////////////////////////////
     // Material data structures ///////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    enum class MaterialPropertyType
+    enum class MaterialPropertyType : u32
     {
         Float = 0x1,
-        String = 0x2,
+        Double = 0x2,
         Integer = 0x3,
-        Buffer = 0x4
+        String = 0x4,
+        Buffer = 0x5
     };
 
     struct MaterialProperty
@@ -51,14 +58,41 @@ namespace fenix {
         u8* Data;
     };
 
+    /// Material class. Description pending.
     class Material
     {
     public:
-        Material(const Shader& shader);
-        ~Material();
+        using MatProperty   = std::variant<i32, f32, f64, std::string>;
+        using MatPropsTable = std::unordered_map<
+            std::string,
+            MatProperty
+        >;
+
+    public:
+        Material(const Shader& shader, const std::string& name = "Default Name");
+        ~Material() = default;
 
         /// Returns the name of the material.
         std::string GetName() const { return m_Name; }
+
+        /// Retrieve a `T` value with a specific key from the material.
+        /// @param key Key to search for. One of the MATKEY_XXX constants.
+        /// @param value_ Reference that will receive the output value.
+        /// @returns True on success false otherwise.
+        template <typename T>
+        bool Get(const std::string& key, T& value_) const;
+
+        /// Retrieve a `T` value with a specific key from the material.
+        /// @param key Key to search for. One of the MATKEY_XXX constants.
+        /// @param value_ Reference that will receive the output value.
+        /// @returns True on success false otherwise.
+        template <typename T>
+        bool GetPropertyValue(const std::string& key, T& value_) const;
+
+        auto GetProperty(const std::string& key) const -> std::optional<MatProperty>;
+
+        // template <typename T>
+        // void AddProperty(const T& value, const std::string& key);
 
         /// Removes all properties from the material.
         /// The data array remains allocated so adding new properties is quite fast.
@@ -67,6 +101,7 @@ namespace fenix {
     private:
         std::string m_Name;
         std::vector<MaterialProperty> m_Properties;
+        MatPropsTable m_MatProperties;
         Shader m_Shader;
     };
 

@@ -26,10 +26,10 @@ namespace fenix {
 
     void Renderer::Submit(const Ref<Mesh>& mesh, const glm::mat4& transform)
     {
-        auto shader = mesh->GetMaterial().GetShader();
-        shader->Bind();
-        shader->SetMat4("u_projection_view", s_SceneData->ProjectionViewMatrix);
-        shader->SetMat4("u_transform", transform);
+        // auto shader = mesh->GetMaterial().GetShader();
+        // shader->Bind();
+        // shader->SetMat4("u_projection_view", s_SceneData->ProjectionViewMatrix);
+        // shader->SetMat4("u_transform", transform);
     }
 
 } // namespace fenix

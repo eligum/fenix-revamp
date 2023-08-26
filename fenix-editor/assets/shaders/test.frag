@@ -1,7 +1,7 @@
 #version 450 core
 
 in vec3 v_color;
-in vec2 v_texcoord;
+in vec3 v_texcoord;
 
 out vec4 frag_color;
 
@@ -12,8 +12,8 @@ uniform vec3 u_color;
 void main()
 {
     // frag_color = mix(
-    //     texture(color_map1, v_texcoord),
-    //     texture(color_map2, v_texcoord),
+    //     texture(color_map1, v_texcoord.st),
+    //     texture(color_map2, v_texcoord.st),
     //     0.25
     // );
 

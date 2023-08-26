@@ -12,14 +12,31 @@ void EditorLayer::OnAttach()
         "assets/shaders/test.frag"
     ));
 
-    const std::vector<f32> vertices = {
-        // position          // color           // tex coord
-        -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
-         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
-         0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
-        -0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f,
+    auto material = CreateRef<Material>(*m_Shader);
+
+    std::vector<f32> vertices = {
+        // position          // color           // tex coords
+        -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f, 0.0f,
+         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f, 0.0f,
+         0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, 0.0f,
+        -0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f, 0.0f,
     };
-    const std::vector<u32> indices = {
+    std::vector<Vertex> vertices2 = {
+        // position             // color             // tex coords
+        {{-0.5f, -0.5f, 0.0f},  {0.0f, 0.0f, 1.0f},  {0.0f, 0.0f, 0.0f}},
+        {{ 0.5f, -0.5f, 0.0f},  {0.0f, 1.0f, 0.0f},  {1.0f, 0.0f, 0.0f}},
+        {{ 0.5f,  0.5f, 0.0f},  {1.0f, 0.0f, 0.0f},  {1.0f, 1.0f, 0.0f}},
+        {{-0.5f,  0.5f, 0.0f},  {1.0f, 1.0f, 0.0f},  {0.0f, 1.0f, 0.0f}},
+    };
+    std::vector<u32> indices = {
+        0, 1, 2,
+        2, 3, 0,
+    };
+
+    m_Mesh = CreateRef<Mesh>(std::move(vertices2), std::move(indices));
+    m_Mesh->SetMaterial(material);
+
+    indices = {
         0, 1, 2,
         2, 3, 0,
     };
@@ -30,7 +47,7 @@ void EditorLayer::OnAttach()
     vertex_buff->SetLayout({
         {ShaderDataType::Float3, "a_position"},
         {ShaderDataType::Float3, "a_color"   },
-        {ShaderDataType::Float2, "a_texcoord"},
+        {ShaderDataType::Float3, "a_texcoord"},
     });
 
     m_VertexArray = CreateRef<VertexArray>();

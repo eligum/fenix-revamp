@@ -52,6 +52,7 @@ namespace fenix {
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
+
     ////////////////////////////////////////////////////////////////////////////
     // Vertex Array ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -88,7 +89,7 @@ namespace fenix {
         return 0;
     }
 
-    void VertexArray::SetVertexBuffer(const std::shared_ptr<VertexBuffer>& buffer)
+    void VertexArray::SetVertexBuffer(const Ref<VertexBuffer>& buffer)
     {
         FENIX_ASSERT(buffer->GetLayout().Count() > 0, "VertexBuffer can't have an empty layout!");
 
@@ -109,13 +110,13 @@ namespace fenix {
         }
 
         glVertexArrayVertexBuffer(m_RendererID, 0, buffer->GetID(), 0, layout.GetStride());
-        m_VertexBuffer = buffer; // shared_ptr copy constructor
+        m_VertexBuffer = buffer; // shared_ptr copy constructor (increases reference count)
     }
 
-    void VertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& buffer)
+    void VertexArray::SetIndexBuffer(const Ref<IndexBuffer>& buffer)
     {
         glVertexArrayElementBuffer(m_RendererID, buffer->GetID());
-        m_IndexBuffer = buffer; // shared_ptr copy constructor
+        m_IndexBuffer = buffer; // shared_ptr copy constructor (increases reference count)
     }
 
     u32 VertexArray::GetIndexCount() const
