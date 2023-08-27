@@ -23,9 +23,10 @@ namespace fenix {
     class Mesh
     {
     public:
+        using vertex_type     = f32;
+        using index_type      = u32;
         using vertex_iterator = std::vector<Vertex>::const_iterator;
-        using vertex_type = f32;
-        using index_type = u32;
+        using index_iterator  = std::vector<index_type>::const_iterator;
 
     public:
         /// Constructs a mesh object from a vector of vertices and a vector of indices.
@@ -36,7 +37,7 @@ namespace fenix {
         ///
         /// This approach is much more efficient than copying the elements but, if a copy
         /// is what you need, refer to the `Mesh` copy constructor.
-        Mesh(std::vector<Vertex>&& vertices, std::vector<u32>&& indices, const Ref<Material>& material = nullptr);
+        Mesh(std::vector<Vertex>&& vertices, std::vector<index_type>&& indices, const Ref<Material>& material = nullptr);
 
         /// Copy constructor.
         Mesh(const Mesh& other);
@@ -44,10 +45,14 @@ namespace fenix {
         /// Default destructor.
         ~Mesh();
 
-        /// Sets the material that will be used for rendering a mesh object.
+        /// Sets the material that will be used for rendering the mesh object.
         /// There can only be one active material per mesh but you can add as many properties
         /// to a material as you like. Refer to the `Material` class for more details.
         void SetMaterial(const Ref<Material>& material) { m_Material = material; }
+
+        /// Returns a reference-counting pointer to the `Material` currently associated with
+        /// the mesh object.
+        auto GetMaterial() const -> Ref<const Material> { return m_Material; }
 
         /// Uploads the mesh data to the VRAM so it can be accessed by the GPU.
         /// This step is required at least once for every mesh that you want to render.
@@ -81,7 +86,7 @@ namespace fenix {
 
     private:
         std::vector<Vertex> m_Vertices;
-        std::vector<u32> m_Indices;
+        std::vector<index_type> m_Indices;
 
         u32 m_VAO; // Vertex Array Object
         u32 m_VBO; // Vertex Buffer Object

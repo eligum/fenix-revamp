@@ -15,6 +15,7 @@ namespace fenix {
         static void Clear();
 
         static void DrawIndexed(const std::shared_ptr<VertexArray>& vertex_array);
+        static void DrawIndexed(u32 num_indices);
     };
 
 } // namespace fenix

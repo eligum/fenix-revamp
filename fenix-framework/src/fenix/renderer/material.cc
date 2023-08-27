@@ -1,37 +1,39 @@
 #include "fenix/renderer/material.hh"
-#include <cstring>
 
 namespace fenix {
 
-    Material::Material(const Shader& shader, const std::string& name)
+    Material::Material(const Ref<Shader>& shader, const std::string& name)
         : m_Name(name), m_Shader(shader)
     {
     }
 
-    template <typename T>
-    bool Material::Get(const std::string& key, T& value_) const
+    Material::Material(Ref<Shader>&& shader, const std::string& name)
+        : m_Name(name), m_Shader(std::move(shader))
     {
-        for (const auto& prop : m_Properties)
-        {
-            if (prop.Key == key)
-            {
-                if (prop.DataSize != sizeof(T))
-                    continue;
-
-                std::memcpy(&value_, prop.Data, sizeof(T));
-                return true;
-            }
-        }
-
-        return false;
     }
+
+    Material::Material(const Material& other)
+        : m_Shader(other.m_Shader), m_Properties(other.m_Properties)
+    {
+        m_Name = std::move(other.m_Name + " copy");
+    }
+
+    // Material& Material::operator=(const Material& other)
+    // {
+    //     if (this != &other)
+    //     {
+
+    //     }
+
+    //     return *this;
+    // }
 
     template <typename T>
     bool Material::GetPropertyValue(const std::string& key, T& value_) const
     {
-        auto iter = m_MatProperties.find(key);
+        auto iter = m_Properties.find(key);
 
-        if (iter == m_MatProperties.end())
+        if (iter == m_Properties.end())
             return false;
 
         const auto& property = iter->second;
@@ -46,11 +48,28 @@ namespace fenix {
 
     auto Material::GetProperty(const std::string& key) const -> std::optional<MatProperty>
     {
-        auto iter = m_MatProperties.find(key);
+        auto iter = m_Properties.find(key);
 
-        return (iter != m_MatProperties.end()) ?
+        return (iter != m_Properties.end()) ?
             std::optional<MatProperty>{iter->second} :
             std::nullopt;
+    }
+
+    void Material::SetProperty(const std::string& key, const MatProperty& value)
+    {
+        m_Properties[key] = value;
+    }
+
+    bool Material::AddProperty(const std::string& key, const MatProperty& value)
+    {
+        if (m_Properties.find(key) != m_Properties.end())
+        {
+            CORE_LOG_WARN("Material '{}' already has property '{}' defined.", m_Name, key);
+            return false;
+        }
+
+        m_Properties[key] = value;
+        return true;
     }
 
 }

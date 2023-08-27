@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <variant>
 #include <optional>
+#include "fenix/core/base.hh"
 #include "fenix/renderer/shader.hh"
 
 // TODO: The Material class still needs a lot of work but for now it just has
@@ -13,7 +14,7 @@
 namespace fenix {
 
     ///////////////////////////////////////////////////////////////////////////
-    // Material standard keys /////////////////////////////////////////////////
+    // Material properties standard keys //////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
     inline constexpr auto MATKEY_SHININESS = "mat.shininess";
@@ -32,32 +33,6 @@ namespace fenix {
     // Material data structures ///////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    enum class MaterialPropertyType : u32
-    {
-        Float = 0x1,
-        Double = 0x2,
-        Integer = 0x3,
-        String = 0x4,
-        Buffer = 0x5
-    };
-
-    struct MaterialProperty
-    {
-        /// Specifies the name of the property (key).
-        std::string Key;
-
-        /// Size in bytes of the buffer `Data` is pointing to.
-        u32 DataSize;
-
-        /// Type of the property.
-        /// It defines the data layout inside the data buffer.
-        MaterialPropertyType Type;
-
-        /// Pointer to the binary buffer that holds the property's value.
-        /// The size of the buffer is always `DataSize`.
-        u8* Data;
-    };
-
     /// Material class. Description pending.
     class Material
     {
@@ -69,40 +44,63 @@ namespace fenix {
         >;
 
     public:
-        Material(const Shader& shader, const std::string& name = "Default Name");
+        /// Constructs a material object from a shader.
+        Material(const Ref<Shader>& shader, const std::string& name = "Default Name");
+
+        /// Constructs a material object from a shader.
+        Material(Ref<Shader>&& shader, const std::string& name = "Default Name");
+
+        /// Copy constructor.
+        Material(const Material& other);
+
+        /// Default destructor.
         ~Material() = default;
 
+        /// Copies and assigns values from another material object.
+        Material& operator=(const Material& other) = default;
+
+        /// Returns a reference-counting pointer to the `Shader` associated with
+        /// the material.
+        auto GetShader() const -> Ref<Shader> { return m_Shader; }
+
         /// Returns the name of the material.
-        std::string GetName() const { return m_Name; }
+        auto GetName() const -> std::string { return m_Name; }
 
-        /// Retrieve a `T` value with a specific key from the material.
-        /// @param key Key to search for. One of the MATKEY_XXX constants.
-        /// @param value_ Reference that will receive the output value.
-        /// @returns True on success false otherwise.
-        template <typename T>
-        bool Get(const std::string& key, T& value_) const;
+        /// Sets the material's name.
+        void SetName(const std::string& name) { m_Name = name; }
 
-        /// Retrieve a `T` value with a specific key from the material.
+        /// Sets the material's name using move semantics. Because why not, I just
+        /// learnt about it and wanted to use it somewhere.
+        void SetName(std::string&& name) { m_Name = std::move(name); }
+
+        /// Retrieves the `T` value from the material property with the specified key.
         /// @param key Key to search for. One of the MATKEY_XXX constants.
         /// @param value_ Reference that will receive the output value.
         /// @returns True on success false otherwise.
         template <typename T>
         bool GetPropertyValue(const std::string& key, T& value_) const;
 
+        /// Returns a material property with the specified key.
+        /// The returned value is wrapped in std::optional because the material might
+        /// not have a property with that key.
         auto GetProperty(const std::string& key) const -> std::optional<MatProperty>;
 
-        // template <typename T>
-        // void AddProperty(const T& value, const std::string& key);
+        /// Overwrites or adds a material property with the given value.
+        void SetProperty(const std::string& key, const MatProperty& value);
+
+        /// Adds a material property with the given value.
+        /// Does nothing if the material has already defined a property with the specified key.
+        bool AddProperty(const std::string& key, const MatProperty& value);
 
         /// Removes all properties from the material.
-        /// The data array remains allocated so adding new properties is quite fast.
+        /// The container where properties were stored remains allocated so adding
+        /// new properties is quite fast.
         void Clear() { m_Properties.clear(); }
 
     private:
         std::string m_Name;
-        std::vector<MaterialProperty> m_Properties;
-        MatPropsTable m_MatProperties;
-        Shader m_Shader;
+        Ref<Shader> m_Shader;
+        MatPropsTable m_Properties;
     };
 
 } // namespace fenix

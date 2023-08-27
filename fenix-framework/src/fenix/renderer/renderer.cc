@@ -13,7 +13,7 @@ namespace fenix {
     {
     }
 
-    void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertex_array, const glm::mat4& transform)
+    void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertex_array, const glm::mat4& transform)
     {
         shader->Bind();
         shader->SetMat4("u_projection_view", s_SceneData->ProjectionViewMatrix);
@@ -26,10 +26,16 @@ namespace fenix {
 
     void Renderer::Submit(const Ref<Mesh>& mesh, const glm::mat4& transform)
     {
-        // auto shader = mesh->GetMaterial().GetShader();
-        // shader->Bind();
-        // shader->SetMat4("u_projection_view", s_SceneData->ProjectionViewMatrix);
-        // shader->SetMat4("u_transform", transform);
+        auto material = mesh->GetMaterial();
+        auto shader = material->GetShader();
+
+        shader->Bind();
+        shader->SetMat4("u_projection_view", s_SceneData->ProjectionViewMatrix);
+        shader->SetMat4("u_transform", transform);
+
+        mesh->Bind();
+        RenderCommand::DrawIndexed(mesh->GetIndexCount());
+        mesh->Unbind();
     }
 
 } // namespace fenix

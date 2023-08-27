@@ -111,6 +111,29 @@ namespace fenix {
         const_iterator begin() const { return m_Elements.cbegin(); }
         const_iterator end() const { return m_Elements.cend(); }
 
+        /// Comparison operator on `BufferLayout` objects. Returns true if both layouts have the
+        /// exact same array of layout elements.
+        bool operator==(const BufferLayout& other) const
+        {
+            std::size_t count = other.m_Elements.size();
+
+            if (m_Elements.size() != count)
+                return false;
+
+            for (std::size_t i = 0; i < count; ++i)
+                if (static_cast<int>(m_Elements[i].type) != static_cast<int>(other.m_Elements[i].type))
+                    return false;
+
+            return true;
+        }
+
+        /// Comparison operator on `BufferLayout` objects. Returns true if both layouts have at
+        /// least one layout element that isn't equal.
+        bool operator!=(const BufferLayout& other) const
+        {
+            return !(*this == other);
+        }
+
     private:
         void calculate_offset_and_stride()
         {

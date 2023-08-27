@@ -1,5 +1,6 @@
 #include <glad/glad.h>
 #include "fenix/renderer/mesh.hh"
+#include "fenix/renderer/buffer.hh"
 
 namespace fenix {
 
@@ -50,22 +51,27 @@ namespace fenix {
         glNamedBufferData(m_VBO, m_Vertices.size() * sizeof(vertex_type), m_Vertices.data(), GL_STATIC_DRAW);
         glNamedBufferData(m_IBO, m_Indices.size() * sizeof(index_type), m_Indices.data(), GL_STATIC_DRAW);
 
-        // Position attribute
-        glEnableVertexArrayAttrib(m_VAO, 0);
-        glVertexArrayAttribBinding(m_VAO, 0, 0);
-        glVertexArrayAttribFormat(m_VAO, 0, 3, GL_FLOAT, false, 0);
+        BufferLayout buff_layout = {
+            {ShaderDataType::Float3, "a_position"},
+            {ShaderDataType::Float3, "a_normal"  },
+            {ShaderDataType::Float3, "a_texcoord"},
+        };
 
-        // Normal attribute
-        glEnableVertexArrayAttrib(m_VAO, 1);
-        glVertexArrayAttribBinding(m_VAO, 1, 0);
-        glVertexArrayAttribFormat(m_VAO, 1, 3, GL_FLOAT, false, 3 * sizeof(vertex_type));
+        u32 index = 0;
 
-        // Texture coordinates attribute
-        glEnableVertexArrayAttrib(m_VAO, 2);
-        glVertexArrayAttribBinding(m_VAO, 2, 0);
-        glVertexArrayAttribFormat(m_VAO, 2, 3, GL_FLOAT, false, 6 * sizeof(vertex_type));
+        for (const auto& attrib : buff_layout)
+        {
+            glEnableVertexArrayAttrib(m_VAO, index);
+            glVertexArrayAttribBinding(m_VAO, index, 0);
+            glVertexArrayAttribFormat(m_VAO, index,
+                                      attrib.GetComponentCount(),
+                                      GL_FLOAT,
+                                      attrib.normalize ? GL_TRUE : GL_FALSE,
+                                      attrib.offset);
+            ++index;
+        }
 
-        glVertexArrayVertexBuffer(m_VAO, 0, m_VBO, 0, 9 * sizeof(vertex_type));
+        glVertexArrayVertexBuffer(m_VAO, 0, m_VBO, 0, buff_layout.GetStride());
         glVertexArrayElementBuffer(m_VAO, m_IBO);
     }
 

@@ -29,4 +29,9 @@ namespace fenix {
         glDrawElements(GL_TRIANGLES, vertex_array->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
     }
 
+    void RenderCommand::DrawIndexed(u32 num_indices)
+    {
+        glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, nullptr);
+    }
+
 } // namespace fenix
