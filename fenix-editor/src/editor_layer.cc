@@ -6,13 +6,12 @@ using namespace fenix;
 
 void EditorLayer::OnAttach()
 {
-    // Create shader from source files
-    m_Shader.reset(Shader::Create(
+    Ref<Shader> shader = Shader::CreateFromFiles(
         "assets/shaders/test.vert",
         "assets/shaders/test.frag"
-    ));
+    );
 
-    auto material = CreateRef<Material>(m_Shader);
+    m_Material = CreateRef<Material>(std::move(shader));
 
     std::vector<f32> vertices = {
         // position          // color           // tex coords
@@ -33,27 +32,27 @@ void EditorLayer::OnAttach()
         2, 3, 0,
     };
 
-    m_Mesh = CreateRef<Mesh>(std::move(vertices2), std::move(indices));
-    m_Mesh->UploadToGPU();
-    m_Mesh->SetMaterial(material);
+    // m_Mesh = CreateRef<Mesh>(std::move(vertices2), std::move(indices));
+    // m_Mesh->UploadToGPU();
+    // m_Mesh->SetMaterial(material);
 
     // indices = {
     //     0, 1, 2,
     //     2, 3, 0,
     // };
 
-    // auto vertex_buff = CreateRef<VertexBuffer>(vertices.data(), vertices.size());
-    // auto index_buff = CreateRef<IndexBuffer>(indices.data(), indices.size());
+    auto vertex_buff = CreateRef<VertexBuffer>(reinterpret_cast<f32*>(vertices2.data()), vertices2.size() * sizeof(Vertex));
+    auto index_buff = CreateRef<IndexBuffer>(indices.data(), indices.size());
 
-    // vertex_buff->SetLayout({
-    //     {ShaderDataType::Float3, "a_position"},
-    //     {ShaderDataType::Float3, "a_color"   },
-    //     {ShaderDataType::Float3, "a_texcoord"},
-    // });
+    vertex_buff->SetLayout({
+        {ShaderDataType::Float3, "a_position"},
+        {ShaderDataType::Float3, "a_color"   },
+        {ShaderDataType::Float3, "a_texcoord"},
+    });
 
-    // m_VertexArray = CreateRef<VertexArray>();
-    // m_VertexArray->SetVertexBuffer(vertex_buff);
-    // m_VertexArray->SetIndexBuffer(index_buff);
+    m_VertexArray = CreateRef<VertexArray>();
+    m_VertexArray->SetVertexBuffer(vertex_buff);
+    m_VertexArray->SetIndexBuffer(index_buff);
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -87,9 +86,9 @@ void EditorLayer::OnUpdate(fenix::TimeStep ts)
         auto transform = glm::mat4(1.0f);
         transform = glm::rotate(transform, i * glm::radians(90.0f), Axis::Y);
         transform = glm::translate(transform, glm::vec3{0.0f, 0.0f, 0.5f});
-        // Renderer::Submit(m_Shader, m_VertexArray, transform);
+        Renderer::Submit(m_Material->GetShader(), m_VertexArray, transform);
 
-        Renderer::Submit(m_Mesh, transform);
+        // Renderer::Submit(m_Mesh, transform);
     }
 
     Renderer::EndScene();

@@ -4,8 +4,8 @@
 #include <filesystem>
 #include <unordered_map>
 #include <glm/glm.hpp>
-#include <glad/glad.h>
 
+#include "fenix/core/base.hh"
 #include "fenix/utils/std_types.hh"
 
 namespace fenix {
@@ -32,12 +32,12 @@ namespace fenix {
         void SetMat4        (const std::string& name, const glm::mat4& value);
 
         u32 GetID() const { return m_RendererID; }
-        static Shader* Create(const Path& vert_shader_path, const Path& frag_shader_path);
+        static Ref<Shader> CreateFromFiles(const Path& vert_shader_path, const Path& frag_shader_path);
+        static Ref<Shader> CreateFromSource(const std::string& vert_shader_src, const std::string& frag_shader_src);
 
     private:
-        u32 compile_shader(GLenum type, const std::string& source);
-        void create_program_from_files(const Path& vert_shader_path, const Path& frag_shader_path);
         i32 get_uniform_location(const std::string& name);
+        void create_program_from_source(const std::string& vert_shader_src, const std::string& frag_shader_src);
 
     private:
         u32 m_RendererID;

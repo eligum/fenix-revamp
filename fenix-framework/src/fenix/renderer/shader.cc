@@ -11,10 +11,23 @@ namespace fs = std::filesystem;
 
 namespace fenix {
 
-    Shader* Shader::Create(const fs::path& vert_shader_path, const fs::path& frag_shader_path)
+    static std::string read_to_string(const fs::path& filepath);
+    static u32 compile_shader(GLenum type, const std::string& source);
+
+    Ref<Shader> Shader::CreateFromFiles(const fs::path& vert_shader_path, const fs::path& frag_shader_path)
     {
-        Shader* shader = new Shader();
-        shader->create_program_from_files(vert_shader_path, frag_shader_path);
+        std::string vert_source = read_to_string(vert_shader_path);
+        std::string frag_source = read_to_string(frag_shader_path);
+
+        auto shader = CreateRef<Shader>();
+        shader->create_program_from_source(vert_source, frag_source);
+        return shader;
+    }
+
+    Ref<Shader> Shader::CreateFromSource(const std::string& vert_shader_src, const std::string& frag_shader_src)
+    {
+        auto shader = CreateRef<Shader>();
+        shader->create_program_from_source(vert_shader_src, frag_shader_src);
         return shader;
     }
 
@@ -23,7 +36,7 @@ namespace fenix {
         glDeleteProgram(m_RendererID);
     }
 
-    // Marking a non-member function as static makes it only visible in this translation unit
+    // Marking a function as static makes it visible in this translation unit only
     static std::string read_to_string(const fs::path& filepath)
     {
         std::string result;
@@ -42,7 +55,8 @@ namespace fenix {
         return result;
     }
 
-    u32 Shader::compile_shader(GLenum type, const std::string& source)
+    // Marking a function as static makes it visible in this translation unit only
+    static u32 compile_shader(GLenum type, const std::string& source)
     {
         u32 shaderID = glCreateShader(type);
 
@@ -66,19 +80,16 @@ namespace fenix {
         return shaderID;
     }
 
-    void Shader::create_program_from_files(const fs::path& vert_shader_path, const fs::path& frag_shader_path)
+    void Shader::create_program_from_source(const std::string& vert_shader_src, const std::string& frag_shader_src)
     {
-        std::string vert_source = read_to_string(vert_shader_path);
-        std::string frag_source = read_to_string(frag_shader_path);
-
         u32 programID = glCreateProgram();
 
-        CORE_LOG_TRACE("Compiling shader '{}'", vert_shader_path.filename().string());
-        u32 vertShaderID = compile_shader(GL_VERTEX_SHADER, vert_source);
+        // Vertex shader
+        u32 vertShaderID = compile_shader(GL_VERTEX_SHADER, vert_shader_src);
         glAttachShader(programID, vertShaderID);
 
-        CORE_LOG_TRACE("Compiling shader '{}'", frag_shader_path.filename().string());
-        u32 fragShaderID = compile_shader(GL_FRAGMENT_SHADER, frag_source);
+        // Fragment shader
+        u32 fragShaderID = compile_shader(GL_FRAGMENT_SHADER, frag_shader_src);
         glAttachShader(programID, fragShaderID);
 
         glLinkProgram(programID);

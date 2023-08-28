@@ -24,6 +24,7 @@ namespace fenix {
         Ref<Shader> m_Shader;
         Ref<VertexArray> m_VertexArray;
         Ref<Mesh> m_Mesh;
+        Ref<Material> m_Material;
         Ref<EditorCamera> m_EditorCamera;
     };
 
