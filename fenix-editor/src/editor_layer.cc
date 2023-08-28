@@ -13,14 +13,7 @@ void EditorLayer::OnAttach()
 
     m_Material = CreateRef<Material>(std::move(shader));
 
-    std::vector<f32> vertices = {
-        // position          // color           // tex coords
-        -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f, 0.0f,
-         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f, 0.0f,
-         0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, 0.0f,
-        -0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f, 0.0f,
-    };
-    std::vector<Vertex> vertices2 = {
+    std::vector<Vertex> vertices = {
         // position             // color             // tex coords
         {{-0.5f, -0.5f, 0.0f},  {0.0f, 0.0f, 1.0f},  {0.0f, 0.0f, 0.0f}},
         {{ 0.5f, -0.5f, 0.0f},  {0.0f, 1.0f, 0.0f},  {1.0f, 0.0f, 0.0f}},
@@ -32,27 +25,9 @@ void EditorLayer::OnAttach()
         2, 3, 0,
     };
 
-    // m_Mesh = CreateRef<Mesh>(std::move(vertices2), std::move(indices));
-    // m_Mesh->UploadToGPU();
-    // m_Mesh->SetMaterial(material);
-
-    // indices = {
-    //     0, 1, 2,
-    //     2, 3, 0,
-    // };
-
-    auto vertex_buff = CreateRef<VertexBuffer>(reinterpret_cast<f32*>(vertices2.data()), vertices2.size() * sizeof(Vertex));
-    auto index_buff = CreateRef<IndexBuffer>(indices.data(), indices.size());
-
-    vertex_buff->SetLayout({
-        {ShaderDataType::Float3, "a_position"},
-        {ShaderDataType::Float3, "a_color"   },
-        {ShaderDataType::Float3, "a_texcoord"},
-    });
-
-    m_VertexArray = CreateRef<VertexArray>();
-    m_VertexArray->SetVertexBuffer(vertex_buff);
-    m_VertexArray->SetIndexBuffer(index_buff);
+    m_Mesh = CreateRef<Mesh>(std::move(vertices), std::move(indices));
+    m_Mesh->UploadToGPU();
+    m_Mesh->SetMaterial(m_Material);
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -74,21 +49,13 @@ void EditorLayer::OnUpdate(fenix::TimeStep ts)
 
     Renderer::BeginScene(*m_EditorCamera);
 
-    /// End goal API
-    // auto material = std::make_shared<Material>(m_Shader);
-    // auto material_i = std::make_shared<MaterialInstance>(material); // For more specific data (degradation texture...)
-    // material_i->SetValue("u_color", Color::Red);
-    // material_i->SetTexture("u_albedo_map", texture) // How to create an albedo map with gimp?
-    // mesh->Apply/SetMaterial(material_i);
-
     for (i32 i = 0; i < 4; ++i)
     {
         auto transform = glm::mat4(1.0f);
         transform = glm::rotate(transform, i * glm::radians(90.0f), Axis::Y);
         transform = glm::translate(transform, glm::vec3{0.0f, 0.0f, 0.5f});
-        Renderer::Submit(m_Material->GetShader(), m_VertexArray, transform);
 
-        // Renderer::Submit(m_Mesh, transform);
+        Renderer::Submit(m_Mesh, transform);
     }
 
     Renderer::EndScene();

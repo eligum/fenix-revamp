@@ -23,7 +23,7 @@ namespace fenix {
     class Mesh
     {
     public:
-        using vertex_type     = f32;
+        using vertex_type     = Vertex;
         using index_type      = u32;
         using vertex_iterator = std::vector<Vertex>::const_iterator;
         using index_iterator  = std::vector<index_type>::const_iterator;
@@ -37,7 +37,7 @@ namespace fenix {
         ///
         /// This approach is much more efficient than copying the elements but, if a copy
         /// is what you need, refer to the `Mesh` copy constructor.
-        Mesh(std::vector<Vertex>&& vertices, std::vector<index_type>&& indices, const Ref<Material>& material = nullptr);
+        Mesh(std::vector<vertex_type>&& vertices, std::vector<index_type>&& indices, const Ref<Material>& material = nullptr);
 
         /// Copy constructor.
         Mesh(const Mesh& other);
@@ -85,7 +85,7 @@ namespace fenix {
         auto GetIndexCount() const -> std::size_t { return m_Indices.size(); }
 
     private:
-        std::vector<Vertex> m_Vertices;
+        std::vector<vertex_type> m_Vertices;
         std::vector<index_type> m_Indices;
 
         u32 m_VAO; // Vertex Array Object
