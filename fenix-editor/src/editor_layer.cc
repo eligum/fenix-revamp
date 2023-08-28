@@ -25,9 +25,20 @@ void EditorLayer::OnAttach()
         2, 3, 0,
     };
 
-    m_Mesh = CreateRef<Mesh>(std::move(vertices), std::move(indices));
-    m_Mesh->UploadToGPU();
-    m_Mesh->SetMaterial(m_Material);
+    // Cube mesh
+    m_CubeMesh = CreateRef<Mesh>(std::move(vertices), std::move(indices));
+    m_CubeMesh->UploadToGPU();
+    m_CubeMesh->SetMaterial(m_Material);
+
+    // Watch Tower model
+    m_TowerModel = CreateRef<Model>("assets/models/watch-tower/obj/wooden watch tower2.obj");
+    const auto& model_meshes = m_TowerModel->GetMeshes();
+    LOG_INFO("Tower model has {} meshes", model_meshes.size());
+    for (const auto& mesh : model_meshes)
+    {
+        mesh->UploadToGPU();
+        mesh->SetMaterial(m_Material);
+    }
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -49,13 +60,15 @@ void EditorLayer::OnUpdate(fenix::TimeStep ts)
 
     Renderer::BeginScene(*m_EditorCamera);
 
+    Renderer::Submit(m_TowerModel);
+
     for (i32 i = 0; i < 4; ++i)
     {
         auto transform = glm::mat4(1.0f);
         transform = glm::rotate(transform, i * glm::radians(90.0f), Axis::Y);
         transform = glm::translate(transform, glm::vec3{0.0f, 0.0f, 0.5f});
 
-        Renderer::Submit(m_Mesh, transform);
+        Renderer::Submit(m_CubeMesh, transform);
     }
 
     Renderer::EndScene();

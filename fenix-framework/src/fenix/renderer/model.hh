@@ -17,13 +17,14 @@ namespace fenix {
         Model(const std::filesystem::path& file_path) { LoadModel(file_path); }
 
         void LoadModel(const std::filesystem::path& file_path);
+        const std::vector<Ref<Mesh>>& GetMeshes() const { return m_Meshes; }
 
     private:
-        void process_node(aiNode* node, const aiScene* scene);
-        void process_mesh(aiMesh* mesh, const aiScene* scene);
+        void process_node(const aiNode* node, const aiScene* scene);
+        static Mesh* copy_mesh(const aiMesh* mesh, const aiScene* scene);
 
     private:
-        std::vector<Mesh> m_Meshes;
+        std::vector<Ref<Mesh>> m_Meshes;
         std::filesystem::path m_Path;
     };
 

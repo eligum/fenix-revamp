@@ -1,10 +1,11 @@
 #pragma once
 
 #include <fenix.hh>
+#include <fenix/renderer/camera.hh>
 #include <fenix/renderer/buffer.hh>
 #include <fenix/renderer/shader.hh>
 #include <fenix/renderer/mesh.hh>
-#include <fenix/renderer/camera.hh>
+#include <fenix/renderer/model.hh>
 
 namespace fenix {
 
@@ -21,11 +22,12 @@ namespace fenix {
         void OnRenderUI() override;
 
     private:
+        Ref<EditorCamera> m_EditorCamera;
         Ref<Shader> m_Shader;
         Ref<VertexArray> m_VertexArray;
-        Ref<Mesh> m_Mesh;
+        Ref<Mesh> m_CubeMesh;
+        Ref<Model> m_TowerModel;
         Ref<Material> m_Material;
-        Ref<EditorCamera> m_EditorCamera;
     };
 
 }

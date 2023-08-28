@@ -38,4 +38,12 @@ namespace fenix {
         mesh->Unbind();
     }
 
+    void Renderer::Submit(const Ref<Model>& model, const glm::mat4& transform)
+    {
+        for (const auto& mesh : model->GetMeshes())
+        {
+            Renderer::Submit(mesh, transform);
+        }
+    }
+
 } // namespace fenix
