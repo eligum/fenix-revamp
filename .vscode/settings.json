@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.fenix": "yaml",
         "*.pl": "prolog",
         "*sld": "xml",
         "*.tcc": "cpp",

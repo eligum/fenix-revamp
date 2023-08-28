@@ -88,7 +88,8 @@ namespace fenix {
         }
 
         // TODO: Copy material data.
-        // ...
+        // An aiScene is guranteed to contain at least ONE material
+        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
         // Create a fenix::Mesh on the heap and return pointer to it
         return new Mesh(std::move(vertices), std::move(indices));
