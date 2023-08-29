@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "fenix/core/macros.hh"
+#include "fenix/core/compiler_macros.hh"
 
 #ifdef FENIX_DEBUG
 #define FENIX_ENABLE_ASSERTS
@@ -20,6 +20,8 @@
 #else
 #define FENIX_ASSERT(x, ...)
 #endif
+
+#define FENIX_STRINGIFY(x) #x
 
 #define BIT(x) (1 << x)
 

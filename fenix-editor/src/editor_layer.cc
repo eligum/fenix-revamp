@@ -1,6 +1,8 @@
 #include "editor_layer.hh"
 #include <glad/glad.h>
 #include <glm/ext/matrix_transform.hpp>
+#include <fenix/core/uuid.hh>
+#include <fenix/resource/resource_manager.hh>
 
 using namespace fenix;
 
@@ -45,6 +47,23 @@ void EditorLayer::OnAttach()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     m_EditorCamera = CreateRef<EditorCamera>();
+
+    auto& res_manager = ResourceManager::GetInstance();
+    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&res_manager));
+    ResourceManager::DeleteInstance();
+    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&ResourceManager::GetInstance()));
+    ResourceManager::DeleteInstance();
+    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&ResourceManager::GetInstance()));
+    ResourceManager::DeleteInstance();
+    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&ResourceManager::GetInstance()));
+    ResourceManager::DeleteInstance();
+    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&ResourceManager::GetInstance()));
+    ResourceManager::DeleteInstance();
+    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&ResourceManager::GetInstance()));
+    LOG_INFO("ResourceManager is intanced? {}", (ResourceManager::IsInstanced()) ? "Yes" : "No");
+    res_manager.Test();
+    res_manager.Test();
+    res_manager.Test();
 }
 
 void EditorLayer::OnDetach()

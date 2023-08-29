@@ -54,7 +54,7 @@ namespace fenix {
         Material(const Material& other);
 
         /// Default destructor.
-        ~Material() = default;
+        virtual ~Material() = default;
 
         /// Copies and assigns values from another material object.
         Material& operator=(const Material& other) = default;
@@ -101,6 +101,10 @@ namespace fenix {
         std::string m_Name;
         Ref<Shader> m_Shader;
         MatPropsTable m_Properties;
+    };
+
+    class MaterialInstance : public Material
+    {
     };
 
 } // namespace fenix

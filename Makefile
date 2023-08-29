@@ -24,6 +24,6 @@ run: build
 	@./build/bin/$(build_type)/$(target)
 
 clean:
-	rm -rf build
+	rm -rf build *.log
 
 rebuild: clean build
