@@ -12,8 +12,24 @@
 
 namespace fenix {
 
-    // class Resource;
-    // class ResourceHandle;
+    class Resource
+    {
+    public:
+        Resource() : m_Name("default_name") {}
+        virtual ~Resource() = default;
+
+        auto GetName() const -> const std::string& { return m_Name; }
+        void SetName(const std::string& name) { m_Name = name; }
+        auto GetPath() const -> std::filesystem::path { return m_Path; }
+        void SetPath(std::filesystem::path&& path) { m_Path = std::move(path).string(); }
+
+    private:
+        std::string m_Name;
+        std::string m_Path;
+        UUID m_UUID;
+    };
+
+    class ResourceHandle;
 
     class ResourceManager : public Singleton<ResourceManager>
     {
@@ -33,7 +49,7 @@ namespace fenix {
         {
             CORE_LOG_INFO("Num. assets = {}", m_Resources.size());
             auto uuid_gen = UUIDGenerator();
-            m_Resources[uuid_gen.generate()] = "Miguel";
+            // m_Resources[uuid_gen.generate()] = "Miguel";
         }
 
     protected:
@@ -41,7 +57,7 @@ namespace fenix {
 
     private:
         std::size_t m_LoadedResourceCount;
-        std::unordered_map<UUID, std::string> m_Resources;
+        std::unordered_map<UUID, Resource> m_Resources;
     };
 
 } // namespace fenix

@@ -10,7 +10,14 @@
 
 namespace fenix {
 
-    struct Face;
+    enum class PrimitiveType
+    {
+        POINTS,
+        LINES,
+        LINE_STRIP,
+        TRIANGLES,
+        TIRANGLE_STRIP
+    };
 
     struct Vertex
     {
@@ -25,12 +32,12 @@ namespace fenix {
     public:
         using vertex_type     = Vertex;
         using index_type      = u32;
-        using vertex_iterator = std::vector<Vertex>::const_iterator;
+        using vertex_iterator = std::vector<vertex_type>::const_iterator;
         using index_iterator  = std::vector<index_type>::const_iterator;
 
     public:
         /// Constructs a mesh object from a vector of vertices and a vector of indices.
-        /// You can optionally pass a material or add it later using `SetMaterial()`.
+        /// You can optionally pass a material or add it later using `ApplyMaterial()`.
         /// This constructor uses move semantics for both vectors, which means that the
         /// given vectors will be empty after this call because their elements will be
         /// moved.
@@ -46,13 +53,13 @@ namespace fenix {
         ~Mesh();
 
         /// Sets the material that will be used for rendering the mesh object.
-        /// There can only be one active material per mesh but you can add as many properties
-        /// to a material as you like. Refer to the `Material` class for more details.
-        void SetMaterial(const Ref<Material>& material) { m_Material = material; }
+        /// There can only be one active material per mesh. Materials are very configurable
+        /// and extendable, refer to the `Material` class for more details.
+        void ApplyMaterial(const Ref<Material>& material) { m_Material = material; }
 
         /// Returns a reference-counting pointer to the `Material` currently associated with
         /// the mesh object.
-        auto GetMaterial() const -> Ref<const Material> { return m_Material; }
+        auto GetMaterial() const -> Ref<Material> { return m_Material; }
 
         /// Uploads the mesh data to the VRAM so it can be accessed by the GPU.
         /// This step is required at least once for every mesh that you want to render.
@@ -64,25 +71,37 @@ namespace fenix {
         /// If you want to render the mesh again you will have to call `UploadToGPU()` first.
         void DeleteFromGPU();
 
-        /// Updates the state of the current OpenGL context to prepare for drawing with this
-        /// `VertexArray` configuration.
+        /// Tells the GPU to use the drawing configuration of this mesh for rendering.
+        /// You do not have to call this method directly as the `fenix::Renderer` already
+        /// does it automatically.
         void Bind() const;
 
-        /// Resets the drawing configuration of the current OpenGL context. If you wish to draw
-        /// with this `VertexArray` configuration again you will have to call `Bind()` before
-        /// drawing.
+        /// Opposite of `Bind()`, this is aslo automatically called by the `fenix::Renderer`
+        /// when needed.
         void Unbind() const;
 
         /// Returns the ID of the underlying OpenGL vertex array object.
         u32 GetRendererID() const { return m_VAO; }
 
-        auto GetVertices() const -> const std::vector<Vertex>& { return m_Vertices; }
-        auto GetVerticesPointer() const -> const f32* { return reinterpret_cast<const f32*>(m_Vertices.data()); }
-        auto GetVerticesIter() const -> std::pair<vertex_iterator, vertex_iterator> { return std::make_pair(m_Vertices.cbegin(), m_Vertices.cend()); }
+        /// Returns a pair of iterators (begin, end) that provide read-only access over the
+        /// vertices of the mesh.
+        auto GetVertices() const -> std::pair<vertex_iterator, vertex_iterator> { return std::make_pair(m_Vertices.cbegin(), m_Vertices.cend()); }
+
+        /// Returns a pair of iterators (begin, end) that provide read-only access over the
+        /// indices of the mesh.
+        auto GetIndices() const -> std::pair<index_iterator, index_iterator> { return std::make_pair(m_Indices.cbegin(), m_Indices.cend()); }
+
+        /// Returns the number of vertices of the mesh.
         auto GetVertexCount() const -> std::size_t { return m_Vertices.size(); }
-        auto GetIndices() const -> const std::vector<u32>& { return m_Indices; }
-        auto GetIndicesPointer() const -> const u32* { return m_Indices.data(); }
+
+        /// Returns the number of indices of the mesh.
         auto GetIndexCount() const -> std::size_t { return m_Indices.size(); }
+
+        /// Returns a copy of the vertices of the mesh.
+        auto CopyVertices() const -> std::vector<vertex_type> { return m_Vertices; }
+
+        /// Returns a copy of the indices of the mesh.
+        auto CopyIndices() const -> std::vector<index_type> { return m_Indices; }
 
     private:
         std::vector<vertex_type> m_Vertices;

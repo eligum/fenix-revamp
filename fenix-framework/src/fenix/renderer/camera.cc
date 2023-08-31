@@ -178,9 +178,9 @@ namespace fenix {
         return {x_factor, y_factor};
     }
 
-    void EditorCamera::FitToBox(const BoundingBox& box)
+    void EditorCamera::FitToBox(const AABB& box)
     {
-        auto new_center = box.ComputeCenter();
+        auto new_center = box.GetCenter();
         f32 radius = glm::length(box.GetMaxPoint() - new_center);
         f32 alpha = glm::radians(m_Fov / 2.0f);
         f32 distance = radius * glm::sin(alpha);

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <filesystem>
 #include <glad/glad.h>
 
@@ -14,11 +13,10 @@ namespace fenix {
         /// Allocates memory in the GPU to store a texture of the specified dimensions.
         Texture2D(u32 width, u32 height);
 
-        /// Loads a texture from memory to the GPU.
+        /// Loads a texture from disk to the GPU.
         Texture2D(const std::filesystem::path& path);
 
-        /// Deletes this texture from the OpenGL context. It's ID can be used again by
-        /// new generated textures.
+        /// Deletes this texture from the GPU.
         ~Texture2D();
 
         /// Binds the texture to the specified texture unit.

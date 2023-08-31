@@ -14,6 +14,9 @@ namespace fenix {
     class Renderer
     {
     public:
+        /// Static classes cannot be instantiated.
+        Renderer() = delete;
+
         static void BeginScene(const EditorCamera& camera);
         static void EndScene();
 

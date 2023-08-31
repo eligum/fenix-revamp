@@ -70,7 +70,7 @@ namespace fenix {
         /// the perimeter of the given bounding box. It does so by setting the camera's
         /// focus (central point) to the center of the bounding box and moving the camera
         /// closer or farther without changing the current fov value.
-        void FitToBox(const BoundingBox& box);
+        void FitToBox(const AABB& box);
 
     private:
         void update_projection_matrix();

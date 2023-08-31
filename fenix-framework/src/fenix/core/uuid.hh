@@ -21,11 +21,14 @@ namespace fenix {
         /// Construct a UUID from an unsigned 64-bit integer.
         UUID(u64 uuid) : m_UUID(uuid) {}
 
-        /// Default copy constructor.
+        /// Copy constructor.
         UUID(const UUID&) = default;
 
         /// Allow UUIDs to be directly casted to an unsigned 64-bit integer.
         operator u64() const { return m_UUID; }
+
+        /// Returns true if the UUID is not 0.
+        bool IsValid() const { return m_UUID > 0; }
 
     private:
         u64 m_UUID;
@@ -39,7 +42,7 @@ namespace fenix {
     {
     public:
         /// Default constructor. Initializes the RNG engine.
-        UUIDGenerator() { m_Engine.seed(std::random_device {}()); }
+        UUIDGenerator() { m_Engine.seed(std::random_device{}()); }
 
         /// Returns a new UUID (Universally Unique Identifier).
         UUID generate() { return std::uniform_int_distribution<u64>{ 1, std::numeric_limits<u64>::max() }(m_Engine); }

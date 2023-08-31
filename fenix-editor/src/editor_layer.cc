@@ -30,7 +30,7 @@ void EditorLayer::OnAttach()
     // Cube mesh
     m_CubeMesh = CreateRef<Mesh>(std::move(vertices), std::move(indices));
     m_CubeMesh->UploadToGPU();
-    m_CubeMesh->SetMaterial(m_Material);
+    m_CubeMesh->ApplyMaterial(m_Material);
 
     // Watch Tower model
     m_TowerModel = CreateRef<Model>("assets/models/watch-tower/obj/wooden watch tower2.obj");
@@ -39,7 +39,7 @@ void EditorLayer::OnAttach()
     for (const auto& mesh : model_meshes)
     {
         mesh->UploadToGPU();
-        mesh->SetMaterial(m_Material);
+        mesh->ApplyMaterial(m_Material);
     }
 
     glEnable(GL_DEPTH_TEST);

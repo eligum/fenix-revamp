@@ -2,24 +2,27 @@
 
 namespace fenix {
 
+    AABB::AABB()
+        : m_MinPoint({ std::numeric_limits<f32>::max(),
+                       std::numeric_limits<f32>::max(),
+                       std::numeric_limits<f32>::max() }),
+          m_MaxPoint({ std::numeric_limits<f32>::lowest(),
+                       std::numeric_limits<f32>::lowest(),
+                       std::numeric_limits<f32>::lowest() })
+    {}
+
     template <typename Iter>
-    BoundingBox::BoundingBox(Iter begin, Iter end)
+    AABB::AABB(Iter begin, Iter end)
     {
         static_assert(
             std::is_same_v<typename std::iterator_traits<Iter>::value_type, f32>,
-            "Iterator value_type must be a floating point scalar type."
+            "Iterator value_type must be a floating point scalar type"
         );
 
         FENIX_ASSERT(
             (end - begin) % 3 == 0,
             "The number of elements in the range specified by the iterators must be a multiple of 3."
         );
-
-        if (end - begin < 6)
-        {
-            CORE_LOG_ERROR("At least 2 vertices are needed to construct a `BoundingBox`");
-            return;
-        }
 
         m_MinPoint = { *begin, *(begin + 1), *(begin + 2) };
         m_MaxPoint = { *begin, *(begin + 1), *(begin + 2) };
@@ -41,15 +44,23 @@ namespace fenix {
         }
     }
 
-    void BoundingBox::Update(const glm::vec3& new_point)
+    bool AABB::IsValid() const
     {
-        for (i32 i = 0; i < 3; ++i) {
-            if (new_point[i] < m_MinPoint[i]) {
-                m_MinPoint[i] = new_point[i];
-            }
-            if (new_point[i] > m_MaxPoint[i]) {
-                m_MaxPoint[i] = new_point[i];
-            }
+        return
+            m_MinPoint.x != std::numeric_limits<f32>::max()
+            && m_MinPoint.y != std::numeric_limits<f32>::max()
+            && m_MinPoint.z != std::numeric_limits<f32>::max()
+            && m_MaxPoint.x != std::numeric_limits<f32>::lowest()
+            && m_MaxPoint.y != std::numeric_limits<f32>::lowest()
+            && m_MaxPoint.z != std::numeric_limits<f32>::lowest();
+    }
+
+    void AABB::Update(const glm::vec3& new_point)
+    {
+        for (i32 i = 0; i < 3; ++i)
+        {
+            if (new_point[i] < m_MinPoint[i]) m_MinPoint[i] = new_point[i];
+            if (new_point[i] > m_MaxPoint[i]) m_MaxPoint[i] = new_point[i];
         }
     }
 
