@@ -3,61 +3,51 @@
 #include <unordered_map>
 #include <string>
 #include <filesystem>
-#include <assimp/scene.h>
 #include "fenix/core/base.hh"
 #include "fenix/core/uuid.hh"
+#include "fenix/resource/resource.hh"
 #include "fenix/utils/singleton.hh"
+
+namespace fs = std::filesystem;
 
 // TODO: Add the possibility to load resources using multiple threads.
 
 namespace fenix {
 
-    class Resource
-    {
-    public:
-        Resource() : m_Name("default_name") {}
-        virtual ~Resource() = default;
-
-        auto GetName() const -> const std::string& { return m_Name; }
-        void SetName(const std::string& name) { m_Name = name; }
-        auto GetPath() const -> std::filesystem::path { return m_Path; }
-        void SetPath(std::filesystem::path&& path) { m_Path = std::move(path).string(); }
-
-    private:
-        std::string m_Name;
-        std::string m_Path;
-        UUID m_UUID;
-    };
-
-    class ResourceHandle;
-
+    /// TODO.
     class ResourceManager : public Singleton<ResourceManager>
     {
     public:
         ~ResourceManager() = default;
 
+        /// Load a Resource from disk.
+        /// Once loaded from disk, further attempts to load a resource by `path` returns the same
+        /// cached reference unless it has expired. A reference expires when the referenced resource
+        /// is freed. Resources are automatically freed when they are no longer used.
+        template <typename T>
+        [[nodiscard]] Ref<T> Load(const std::filesystem::path& path);
+
         /// Desc.
-        std::size_t GetLoadedResourceCount() const { return m_LoadedResourceCount; }
+        std::size_t GetLoadedResourceCount() const { return m_LoadedResourcesCount; }
 
         /// Desc.
         std::size_t GetResourceCount() const { return m_Resources.size(); }
 
         /// Desc.
-        void Clear() { m_Resources.clear(); }
-
-        void Test()
+        void Clear()
         {
-            CORE_LOG_INFO("Num. assets = {}", m_Resources.size());
-            auto uuid_gen = UUIDGenerator();
-            // m_Resources[uuid_gen.generate()] = "Miguel";
+            m_Resources.clear();
+            m_ResourceCache.clear();
+            m_LoadedResourcesCount = 0;
         }
 
     protected:
         ResourceManager();
 
     private:
-        std::size_t m_LoadedResourceCount;
-        std::unordered_map<UUID, Resource> m_Resources;
+        std::size_t m_LoadedResourcesCount;
+        std::unordered_map<std::string, UUID> m_ResourceCache;
+        std::unordered_map<UUID, std::weak_ptr<Resource>> m_Resources;
     };
 
 } // namespace fenix

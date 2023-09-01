@@ -7,4 +7,9 @@ namespace fenix {
     {
     }
 
+    Image::Image(const std::filesystem::path&)
+    {
+        // Do nothing
+    }
+
 } // namespace fenix

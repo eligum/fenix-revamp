@@ -1,8 +1,8 @@
 #include "editor_layer.hh"
 #include <glad/glad.h>
 #include <glm/ext/matrix_transform.hpp>
-#include <fenix/core/uuid.hh>
 #include <fenix/resource/resource_manager.hh>
+#include <fenix/renderer/texture_2d.hh>
 
 using namespace fenix;
 
@@ -33,7 +33,10 @@ void EditorLayer::OnAttach()
     m_CubeMesh->ApplyMaterial(m_Material);
 
     // Watch Tower model
-    m_TowerModel = CreateRef<Model>("assets/models/watch-tower/obj/wooden watch tower2.obj");
+    auto& manager = ResourceManager::GetInstance();
+
+    m_TowerModel = manager.Load<Model>("assets/models/watch-tower/obj/wooden watch tower2.obj");
+    auto ok = manager.Load<Model>("assets/models/watch-tower/obj/wooden watch tower2.obj");
     const auto& model_meshes = m_TowerModel->GetMeshes();
     LOG_INFO("Tower model has {} meshes", model_meshes.size());
     for (const auto& mesh : model_meshes)
@@ -47,23 +50,6 @@ void EditorLayer::OnAttach()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     m_EditorCamera = CreateRef<EditorCamera>();
-
-    auto& res_manager = ResourceManager::GetInstance();
-    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&res_manager));
-    ResourceManager::DeleteInstance();
-    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&ResourceManager::GetInstance()));
-    ResourceManager::DeleteInstance();
-    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&ResourceManager::GetInstance()));
-    ResourceManager::DeleteInstance();
-    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&ResourceManager::GetInstance()));
-    ResourceManager::DeleteInstance();
-    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&ResourceManager::GetInstance()));
-    ResourceManager::DeleteInstance();
-    LOG_INFO("res_man address = {}", reinterpret_cast<u64>(&ResourceManager::GetInstance()));
-    LOG_INFO("ResourceManager is intanced? {}", (ResourceManager::IsInstanced()) ? "Yes" : "No");
-    res_manager.Test();
-    res_manager.Test();
-    res_manager.Test();
 }
 
 void EditorLayer::OnDetach()

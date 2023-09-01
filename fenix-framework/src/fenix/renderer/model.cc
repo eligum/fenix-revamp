@@ -7,7 +7,7 @@
 
 namespace fenix {
 
-    void Model::LoadModel(const std::filesystem::path& file_path)
+    void Model::load_model(const std::filesystem::path& file_path)
     {
         auto importer = Assimp::Importer{};
 
@@ -25,7 +25,6 @@ namespace fenix {
             return;
         }
 
-        m_Path = file_path;
         m_Meshes.clear();
         process_node(scene->mRootNode, scene);
     }

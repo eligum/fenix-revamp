@@ -25,7 +25,6 @@ namespace fenix {
     }
 
     Texture2D::Texture2D(const fs::path& path)
-        : m_Path(path)
     {
         i32 width;
         i32 height;
