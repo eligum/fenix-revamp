@@ -1,3 +1,4 @@
+#include "fenix/fxpch.hh"
 #include "fenix/renderer/buffer.hh"
 #include <glad/glad.h>
 

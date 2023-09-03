@@ -8,6 +8,8 @@ using namespace fenix;
 
 void EditorLayer::OnAttach()
 {
+    FENIX_PROFILE_FUNCTION();
+
     Ref<Shader> shader = Shader::CreateFromFiles(
         "assets/shaders/test.vert",
         "assets/shaders/test.frag"
@@ -54,10 +56,13 @@ void EditorLayer::OnAttach()
 
 void EditorLayer::OnDetach()
 {
+    FENIX_PROFILE_FUNCTION();
 }
 
 void EditorLayer::OnUpdate(fenix::TimeStep ts)
 {
+    FENIX_PROFILE_FUNCTION();
+
     RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
     RenderCommand::Clear();
 
@@ -90,4 +95,5 @@ void EditorLayer::OnEvent(fenix::Event& event)
 
 void EditorLayer::OnRenderUI()
 {
+    FENIX_PROFILE_FUNCTION();
 }

@@ -16,5 +16,7 @@ target_link_libraries(fenix-fw PUBLIC
 target_include_directories(fenix-fw PUBLIC include
                                     PUBLIC src)
 
+target_precompile_headers(fenix-fw PRIVATE "src/fenix/fxpch.hh")
+
 # Define preprocessor macro if configuration is Debug
 target_compile_definitions(fenix-fw PRIVATE $<$<CONFIG:Debug>:"FENIX_DEBUG">)

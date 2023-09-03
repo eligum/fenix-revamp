@@ -1,3 +1,4 @@
+#include "fenix/fxpch.hh"
 #include "fenix/resource/resource_manager.hh"
 
 #include <typeinfo>

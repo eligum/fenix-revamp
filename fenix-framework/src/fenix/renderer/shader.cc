@@ -1,3 +1,4 @@
+#include "fenix/fxpch.hh"
 #include "fenix/renderer/shader.hh"
 #include "fenix/core/base.hh"
 

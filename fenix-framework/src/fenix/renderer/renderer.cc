@@ -1,3 +1,4 @@
+#include "fenix/fxpch.hh"
 #include "fenix/renderer/renderer.hh"
 
 namespace fenix {

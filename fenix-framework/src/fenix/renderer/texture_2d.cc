@@ -1,3 +1,4 @@
+#include "fenix/fxpch.hh"
 #include "fenix/renderer/texture_2d.hh"
 #include "fenix/core/base.hh"
 

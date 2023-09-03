@@ -1,16 +1,17 @@
+#include "fenix/fxpch.hh"
 #include <glad/glad.h>
 #include "fenix/renderer/mesh.hh"
 #include "fenix/renderer/buffer.hh"
 
 namespace fenix {
 
-    Mesh::Mesh(std::vector<Vertex>&& vertices, std::vector<u32>&& indices, const Ref<Material>& material)
+    Mesh::Mesh(std::vector<Vertex>&& vertices, std::vector<u32>&& indices, Ref<Material>&& material)
         : m_Vertices(std::move(vertices)),
           m_Indices(std::move(indices)),
           m_VAO(0),
           m_VBO(0),
           m_IBO(0),
-          m_Material(material)
+          m_Material(std::move(material))
     {}
 
     Mesh::Mesh(const Mesh& other)

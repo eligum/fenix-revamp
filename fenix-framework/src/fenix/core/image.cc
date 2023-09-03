@@ -1,3 +1,4 @@
+#include "fenix/fxpch.hh"
 #include "fenix/core/image.hh"
 #include <stb_image.h>
 

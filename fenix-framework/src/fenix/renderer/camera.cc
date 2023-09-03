@@ -1,12 +1,13 @@
+#include "fenix/fxpch.hh"
 #include "fenix/renderer/camera.hh"
 #include "fenix/input/input.hh"
 #include "fenix/core/base.hh"
 
-FX_DISABLE_WARNING_PUSH
-FX_DISABLE_WARNING_USELESS_CAST
+FENIX_DISABLE_WARNING_PUSH
+FENIX_DISABLE_WARNING_USELESS_CAST
 #include <glm/ext.hpp>
 #include <glm/trigonometric.hpp>
-FX_DISABLE_WARNING_POP
+FENIX_DISABLE_WARNING_POP
 
 namespace fenix {
 

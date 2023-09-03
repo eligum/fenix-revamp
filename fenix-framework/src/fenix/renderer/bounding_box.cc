@@ -1,3 +1,4 @@
+#include "fenix/fxpch.hh"
 #include "fenix/renderer/bounding_box.hh"
 
 namespace fenix {

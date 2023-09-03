@@ -44,7 +44,7 @@ namespace fenix {
         ///
         /// This approach is much more efficient than copying the elements but, if a copy
         /// is what you need, refer to the `Mesh` copy constructor.
-        Mesh(std::vector<vertex_type>&& vertices, std::vector<index_type>&& indices, const Ref<Material>& material = nullptr);
+        Mesh(std::vector<vertex_type>&& vertices, std::vector<index_type>&& indices, Ref<Material>&& material = nullptr);
 
         /// Copy constructor.
         Mesh(const Mesh& other);

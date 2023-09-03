@@ -4,21 +4,22 @@
 #include "fenix/core/compiler_macros.hh"
 
 #ifdef FENIX_DEBUG
-#define FENIX_ENABLE_ASSERTS
+    #define FENIX_ENABLE_ASSERTS
+    #define FENIX_ENABLE_PROFILING
 #endif
 
 #ifdef FENIX_ENABLE_ASSERTS
-#define FENIX_ASSERT(x, ...)                                                          \
-    {                                                                                 \
-        if (!(x))                                                                     \
-        {                                                                             \
-            CORE_LOG_ERROR("Assertion failed at LINE {} in {}:", __LINE__, __FILE__); \
-            CORE_LOG_ERROR("{}", __VA_ARGS__);                                        \
-            FX_DEBUGBREAK();                                                          \
-        }                                                                             \
-    }
+    #define FENIX_ASSERT(x, ...)                                                          \
+        {                                                                                 \
+            if (!(x))                                                                     \
+            {                                                                             \
+                CORE_LOG_ERROR("Assertion failed at LINE {} in {}:", __LINE__, __FILE__); \
+                CORE_LOG_ERROR("{}", __VA_ARGS__);                                        \
+                FENIX_DEBUGBREAK();                                                       \
+            }                                                                             \
+        }
 #else
-#define FENIX_ASSERT(x, ...)
+    #define FENIX_ASSERT(x, ...)
 #endif
 
 #define FENIX_STRINGIFY(x) #x
@@ -58,3 +59,4 @@ namespace fenix {
 
 #include "fenix/core/log.hh"
 #include "fenix/utils/std_types.hh"
+#include "fenix/utils/profiler.hh"

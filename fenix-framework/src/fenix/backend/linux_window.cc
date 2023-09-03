@@ -1,3 +1,4 @@
+#include "fenix/fxpch.hh"
 #include "fenix/backend/linux_window.hh"
 #include "fenix/backend/opengl_context.hh"
 

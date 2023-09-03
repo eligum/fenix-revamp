@@ -1,3 +1,4 @@
+#include "fenix/fxpch.hh"
 #include "fenix/renderer/model.hh"
 
 #include "fenix/core/log.hh"
@@ -70,7 +71,7 @@ namespace fenix {
                     mesh->mTextureCoords[uv_channel][i].z
                 };
             }
-            vertices.push_back(vertex);
+            vertices.push_back(std::move(vertex));
         }
 
         // Copy index data

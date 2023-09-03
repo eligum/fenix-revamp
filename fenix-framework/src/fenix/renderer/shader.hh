@@ -13,9 +13,9 @@ namespace fenix {
     class Shader
     {
     public:
-        using Path = std::filesystem::path;
-
-    public:
+        Shader() = default;
+        Shader(const std::filesystem::path& vert_shader_path, const std::filesystem::path& frag_shader_path);
+        Shader(const std::string& vert_shader_src, const std::string& frag_shader_src);
         ~Shader();
 
         void Bind() const;
@@ -31,8 +31,10 @@ namespace fenix {
         void SetMat3        (const std::string& name, const glm::mat3& value);
         void SetMat4        (const std::string& name, const glm::mat4& value);
 
-        u32 GetID() const { return m_RendererID; }
-        static Ref<Shader> CreateFromFiles(const Path& vert_shader_path, const Path& frag_shader_path);
+        auto GetUniformList(bool get_groups = false) const -> std::vector<std::string>;
+        u32 GetRendererID() const { return m_RendererID; }
+
+        static Ref<Shader> CreateFromFiles(const std::filesystem::path& vert_shader_path, const std::filesystem::path& frag_shader_path);
         static Ref<Shader> CreateFromSource(const std::string& vert_shader_src, const std::string& frag_shader_src);
 
     private:
@@ -42,6 +44,17 @@ namespace fenix {
     private:
         u32 m_RendererID;
         std::unordered_map<std::string, i32> m_UniformLocationCache;
+    };
+
+    class ShaderLibrary
+    {
+    public:
+        void Add(const Ref<Shader>& shader, std::string name);
+        void Add(const Ref<Shader>& shader);
+        bool Has(const std::string& name) const;
+
+    private:
+        std::unordered_map<std::string, Ref<Shader>> m_Shaders;
     };
 
 } // namespace fenix

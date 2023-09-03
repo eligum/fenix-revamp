@@ -30,6 +30,7 @@ namespace fenix {
     class Singleton
     {
     public:
+        Singleton(const Singleton&)            = delete;
         Singleton& operator=(const Singleton&) = delete;
         Singleton& operator=(Singleton&&)      = delete;
 

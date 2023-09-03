@@ -1,5 +1,5 @@
+#include "fenix/fxpch.hh"
 #include "fenix/core/layer_stack.hh"
-#include <algorithm>
 
 namespace fenix {
 
