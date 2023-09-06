@@ -4,11 +4,23 @@
 #include "fenix/core/compiler_macros.hh"
 
 #ifdef FENIX_DEBUG
-    #define FENIX_ENABLE_ASSERTS
-    #define FENIX_ENABLE_PROFILING
+    #define FENIX_ENABLE_ASSERTS 1
+    #define FENIX_ENABLE_PROFILING 0
 #endif
 
-#ifdef FENIX_ENABLE_ASSERTS
+#if FENIX_ENABLE_PROFILING
+    #define FENIX_PROFILE_BEGIN_SESSION(name, output_file) ::fenix::Profiler::GetInstance().BeginSession(name, output_file);
+    #define FENIX_PROFILE_END_SESSION() ::fenix::Profiler::GetInstance().EndSession();
+    #define FENIX_PROFILE_SCOPE(name) auto timer##__LINE__ = ::fenix::Profiler::Timer{name}
+    #define FENIX_PROFILE_FUNCTION() FENIX_PROFILE_SCOPE(FENIX_FUNCTION_SIG)
+#else
+    #define FENIX_PROFILE_BEGIN_SESSION(name, output_file)
+    #define FENIX_PROFILE_END_SESSION()
+    #define FENIX_PROFILE_SCOPE(name)
+    #define FENIX_PROFILE_FUNCTION()
+#endif
+
+#if FENIX_ENABLE_ASSERTS
     #define FENIX_ASSERT(x, ...)                                                          \
         {                                                                                 \
             if (!(x))                                                                     \

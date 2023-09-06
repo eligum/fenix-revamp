@@ -31,7 +31,7 @@ namespace fenix {
         void SetMat3        (const std::string& name, const glm::mat3& value);
         void SetMat4        (const std::string& name, const glm::mat4& value);
 
-        auto GetUniformList(bool get_groups = false) const -> std::vector<std::string>;
+        auto GetUniformList() const -> std::vector<std::string>;
         u32 GetRendererID() const { return m_RendererID; }
 
         static Ref<Shader> CreateFromFiles(const std::filesystem::path& vert_shader_path, const std::filesystem::path& frag_shader_path);
@@ -40,9 +40,11 @@ namespace fenix {
     private:
         i32 get_uniform_location(const std::string& name);
         void create_program_from_source(const std::string& vert_shader_src, const std::string& frag_shader_src);
+        void set_code(const std::string& code) { m_Code = code; }
 
     private:
         u32 m_RendererID;
+        std::string m_Code;
         std::unordered_map<std::string, i32> m_UniformLocationCache;
     };
 

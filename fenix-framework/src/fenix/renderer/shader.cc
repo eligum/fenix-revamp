@@ -22,6 +22,7 @@ namespace fenix {
 
         auto shader = CreateRef<Shader>();
         shader->create_program_from_source(vert_source, frag_source);
+        shader->set_code(vert_source + frag_source);
         return shader;
     }
 
@@ -29,6 +30,7 @@ namespace fenix {
     {
         auto shader = CreateRef<Shader>();
         shader->create_program_from_source(vert_shader_src, frag_shader_src);
+        shader->set_code(vert_shader_src + frag_shader_src);
         return shader;
     }
 
@@ -127,6 +129,50 @@ namespace fenix {
     void Shader::Unbind() const
     {
         glUseProgram(0);
+    }
+
+    auto Shader::GetUniformList() const -> std::vector<std::string>
+    {
+        auto uniforms = std::vector<std::string>{};
+        auto source = std::string_view{m_Code};
+
+        std::size_t index = 0;
+        std::size_t N = source.length();
+        while (index < N)
+        {
+            index = source.find("uniform", index);
+
+            if (index == std::string::npos)
+                break;
+
+            // Skip if 'uniform' token is inside a comment
+            std::size_t i = source.rfind("//", index) + 2;
+            if (i != std::string::npos)
+            {
+                bool is_comment = true;
+                while (i < index)
+                {
+                    if (source[i] == '\n')
+                    {
+                        is_comment = false;
+                        break;
+                    }
+                    ++i;
+                }
+                if (is_comment)
+                {
+                    index = index + std::size("uniform") - 1;
+                    continue;
+                }
+            }
+
+            index = source.find(';', index);
+            std::size_t start = source.rfind(' ', index) + 1;
+            std::size_t count = index - start;
+            uniforms.emplace_back(source.substr(start, count));
+        }
+
+        return uniforms;
     }
 
     i32 Shader::get_uniform_location(const std::string& name)

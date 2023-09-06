@@ -14,6 +14,10 @@ void EditorLayer::OnAttach()
         "assets/shaders/test.vert",
         "assets/shaders/test.frag"
     );
+    for (auto& name : shader->GetUniformList())
+    {
+        CORE_LOG_INFO("{}", name);
+    }
 
     m_Material = CreateRef<Material>(std::move(shader));
 
