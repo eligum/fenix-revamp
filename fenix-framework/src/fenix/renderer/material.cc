@@ -4,17 +4,19 @@
 namespace fenix {
 
     Material::Material(const Ref<Shader>& shader, const std::string& name)
-        : m_Name(name), m_Shader(shader)
+        : m_Name(name), m_RenderPriority(0), m_Shader(shader)
     {
     }
 
     Material::Material(Ref<Shader>&& shader, const std::string& name)
-        : m_Name(name), m_Shader(std::move(shader))
+        : m_Name(name), m_RenderPriority(0), m_Shader(std::move(shader))
     {
     }
 
     Material::Material(const Material& other)
-        : m_Shader(other.m_Shader), m_Properties(other.m_Properties)
+        : m_RenderPriority(other.m_RenderPriority),
+          m_Shader(other.m_Shader),
+          m_Properties(other.m_Properties)
     {
         m_Name = std::move(other.m_Name + " copy");
     }

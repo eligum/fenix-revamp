@@ -3,6 +3,9 @@
 
 #include <typeinfo>
 #include <cxxabi.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 #include "fenix/renderer/model.hh"
 #include "fenix/renderer/texture_2d.hh"
 
@@ -22,6 +25,27 @@ namespace fenix {
         auto result = std::string{name};
         std::free(name);
         return result;
+    }
+
+    void ResourceManager::ImportFile(const std::filesystem::path& path)
+    {
+        auto maybe_messy_path = fs::path(path);
+        auto canonical_path = fs::weakly_canonical(maybe_messy_path);
+
+        auto importer = Assimp::Importer{};
+
+        const aiScene* scene = importer.ReadFile(
+            canonical_path.string(),
+            aiProcess_Triangulate |
+            aiProcess_JoinIdenticalVertices
+        );
+
+        if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+        {
+            CORE_LOG_ERROR("Failed to import file '{}'.", canonical_path.string());
+            CORE_LOG_ERROR("Detail: {}", importer.GetErrorString());
+            return;
+        }
     }
 
     template <typename T>

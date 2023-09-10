@@ -94,4 +94,21 @@ namespace fenix {
         glBindVertexArray(0);
     }
 
+    bool Mesh::Vertex::operator==(const Vertex& other) const
+    {
+        if (position != other.position)
+            return false;
+
+        if (color != other.color)
+            return false;
+
+        if (normal != other.normal)
+            return false;
+
+        if (tex_coords != other.tex_coords)
+            return false;
+
+        return true;
+    }
+
 } // namespace fenix

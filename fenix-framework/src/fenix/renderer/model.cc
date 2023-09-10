@@ -21,7 +21,7 @@ namespace fenix {
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
-            CORE_LOG_ERROR("Failed to import file {}", file_path.string());
+            CORE_LOG_ERROR("Failed to import file '{}'.", file_path.string());
             CORE_LOG_ERROR("Detail: {}", importer.GetErrorString());
             return;
         }
@@ -37,7 +37,7 @@ namespace fenix {
         {
             u32 index = node->mMeshes[i];
             m_Meshes.push_back(
-                Ref<Mesh>{ copy_mesh(scene->mMeshes[index], scene) }
+                Ref<Mesh>{ import_mesh(scene->mMeshes[index], scene) }
             );
         }
 
@@ -48,8 +48,10 @@ namespace fenix {
         }
     }
 
-    Mesh* Model::copy_mesh(const aiMesh* mesh, const aiScene* scene)
+    Mesh* Model::import_mesh(const aiMesh* mesh, const aiScene* scene)
     {
+        using Vertex = Mesh::Vertex;
+
         // Copy vertex data
         std::vector<Vertex> vertices;
         vertices.reserve(mesh->mNumVertices);
@@ -58,6 +60,7 @@ namespace fenix {
         {
             Vertex vertex = {
                 { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z },
+                { 0.0f,                 0.0f,                 0.0f },
                 { mesh->mNormals[i].x,  mesh->mNormals[i].y,  mesh->mNormals[i].z },
                 { 0.0f,                 0.0f,                 0.0f },
             };
@@ -65,7 +68,7 @@ namespace fenix {
             u32 uv_channel = 0;
             if (mesh->HasTextureCoords(uv_channel))
             {
-                vertex.TexCoords = {
+                vertex.tex_coords = {
                     mesh->mTextureCoords[uv_channel][i].x,
                     mesh->mTextureCoords[uv_channel][i].y,
                     mesh->mTextureCoords[uv_channel][i].z

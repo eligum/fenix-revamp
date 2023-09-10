@@ -22,7 +22,7 @@ namespace fenix {
     private:
         void load_model(const std::filesystem::path& file_path);
         void process_node(const aiNode* node, const aiScene* scene);
-        static Mesh* copy_mesh(const aiMesh* mesh, const aiScene* scene);
+        static Mesh* import_mesh(const aiMesh* mesh, const aiScene* scene);
 
     private:
         std::vector<Ref<Mesh>> m_Meshes;

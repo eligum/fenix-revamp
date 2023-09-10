@@ -27,6 +27,8 @@ namespace fenix {
         template <typename T>
         [[nodiscard]] Ref<T> Load(const std::filesystem::path& path);
 
+        [[nodiscard]] void ImportFile(const std::filesystem::path& path);
+
         /// Desc.
         std::size_t GetLoadedResourceCount() const { return m_LoadedResourcesCount; }
 

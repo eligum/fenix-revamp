@@ -19,21 +19,25 @@ namespace fenix {
         TIRANGLE_STRIP
     };
 
-    struct Vertex
-    {
-        glm::vec3 Position;
-        glm::vec3 Normal;
-        glm::vec3 TexCoords;
-    };
-
     /// Mesh class. Description pending.
     class Mesh
     {
     public:
+        struct Vertex
+        {
+            glm::vec3 position;
+            glm::vec3 color;
+            glm::vec3 normal;
+            glm::vec3 tex_coords;
+
+            bool operator==(const Vertex& other) const;
+        };
+
         using vertex_type     = Vertex;
         using index_type      = u32;
         using vertex_iterator = std::vector<vertex_type>::const_iterator;
         using index_iterator  = std::vector<index_type>::const_iterator;
+
 
     public:
         /// Constructs a mesh object from a vector of vertices and a vector of indices.
