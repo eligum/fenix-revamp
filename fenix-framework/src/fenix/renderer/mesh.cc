@@ -54,6 +54,7 @@ namespace fenix {
 
         BufferLayout buff_layout = {
             {ShaderDataType::Float3, "a_position"},
+            {ShaderDataType::Float3, "a_color"   },
             {ShaderDataType::Float3, "a_normal"  },
             {ShaderDataType::Float3, "a_texcoord"},
         };

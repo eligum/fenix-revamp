@@ -21,7 +21,7 @@ void EditorLayer::OnAttach()
 
     m_Material = CreateRef<Material>(std::move(shader));
 
-    std::vector<Vertex> vertices = {
+    std::vector<Mesh::Vertex> vertices = {
         // position             // color             // tex coords
         {{-0.5f, -0.5f, 0.0f},  {0.0f, 0.0f, 1.0f},  {0.0f, 0.0f, 0.0f}},
         {{ 0.5f, -0.5f, 0.0f},  {0.0f, 1.0f, 0.0f},  {1.0f, 0.0f, 0.0f}},
